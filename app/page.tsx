@@ -4,11 +4,20 @@ import { useEffect, useMemo, useState } from "react";
 
 
 const tipImages = [
-  "/images/tip1.png",
-  "/images/tip2.png",
-  "/images/tip3.png",
-  "/images/tip4.png",
-  "/images/tip5.png",
+  "/images/tip1_people.png",
+  "/images/tip_annual.png",
+  "/images/tip_autumn_leaves.png",
+  "/images/tip4_people.png",
+  "/images/tip5_people.png",
+  "/images/tip6_people.png",
+  "/images/tip7_people.png",
+  "/images/tip8_people.png",
+  "/images/tip9_people.png",
+  "/images/tip10_people.png",
+  "/images/tip13_solar.png",
+  "/images/tip14_gravel.png",
+  "/images/tip15_people.png",
+  
 ];
 
 export default function Home() {
@@ -16,6 +25,7 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [tipVisible, setTipVisible] = useState(false);
+  const [textTips, setTextTips] = useState<string | null>(null);
 
   const beforeImgUrl = useMemo(
     () => (file ? URL.createObjectURL(file) : null),
@@ -53,10 +63,14 @@ export default function Home() {
 
   async function handleSubmit() {
 
+    setResult(null);
+    setTextTips(null);
+
     if (!file) return;
 
     setTipIndex(0);
     setTipVisible(false);
+    
     setLoading(true);
 
     const formData = new FormData();
@@ -68,9 +82,19 @@ export default function Home() {
         body: formData,
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Failure API call : ", response.status, errorText);
+        return;  
+      }
+
       const returnedData = await response.json();
 
+      console.log(returnedData);
+
       setResult(returnedData.imageUrl);
+      setTextTips(returnedData.textTips ?? null);
+
     } finally {
       setLoading(false);
     }
@@ -80,6 +104,7 @@ export default function Home() {
     if (!beforeImgUrl) return;
 
     return () => URL.revokeObjectURL(beforeImgUrl);
+
   }, [beforeImgUrl]);
 
 
@@ -106,7 +131,7 @@ export default function Home() {
           </header>
 
           {/* Main before/after garden preview layout */}
-          <div className="grid flex-1 items-start gap-5 md:grid-cols-2">
+          <div className="grid flex-1 items-start gap-5 md:grid-cols-[3fr_7fr]">
             <div className="flex flex-col gap-4">
               {/* Before image panel */}
               <div className="rounded-[2rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-2xl shadow-[#4d5a35]/20 backdrop-blur md:p-5">
@@ -137,7 +162,7 @@ export default function Home() {
               </div>
 
               {/* Generation progress indicator */}
-              {loading && (
+              {/* {loading && (
                 <div className="flex justify-center">
                   <img
                     alt="Garden generation in progress"
@@ -145,7 +170,7 @@ export default function Home() {
                     src="/images/progress_bar.gif"
                   />
                 </div>
-              )}
+              )} */}
 
 
               {/* Upload and generate controls */}
@@ -183,9 +208,20 @@ export default function Home() {
                     After
                   </p>
                   <h2 className="mt-2 text-2xl font-semibold text-[#253d21]">
-                    {result ? ("After") : 
-                              loading ? ("Tips for a Tidy Garden") : ("Suggested Design for You")
-                              }
+                    {result ? (
+                      "Suggested Design for You"
+                    ) : loading ? (
+                      <span className="flex items-center gap-4">
+                        <span>Generating...</span>
+                        <img
+                          alt="Garden generation in progress"
+                          className="h-12 w-48 object-contain"
+                          src="/images/progress_bar.gif"
+                        />
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </h2>
                 </div>
 
@@ -197,15 +233,15 @@ export default function Home() {
                       src={result}
                     />
                   ) : loading ? (
-                    <div>
+                    <div className="flex h-full min-h-[20rem] w-full items-center justify-center">
                       <img
                         src={currentTipImage}
                         alt="Current tip"
-                        className={`max-h-[50vh] transition-opacity duration-500 ${
+                        className={`h-full w-full rounded-[1.25rem] object-contain transition-opacity duration-500 ${
                           tipVisible ? "opacity-100" : "opacity-0"
                         }`}
                       />
-                      </div>
+                    </div>
                   ) : (
                     <div className="flex min-h-[20rem] w-full items-center justify-center rounded-[1.25rem] bg-[#fbf5e8]/10 px-8 text-center text-sm leading-6 text-[#fbf5e8]/75">
                       Generate your design to see the after image here.
@@ -214,7 +250,15 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
+
+            {/* text tips */}      
+            <div>
+              <p> Suggestions
+                {textTips}
+              </p>
+            </div>
+
+            </div>
         </div>
       </section>
     </main>

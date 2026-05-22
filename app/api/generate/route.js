@@ -11,9 +11,11 @@ const openai = new OpenAI({
 
 // const inputFile = path.join(process.cwd(), "public", "images", "messy_garden2.png");
 const outputFile = path.join(process.cwd(), "public", "images", "after.png");
-const promptFile = path.join(process.cwd(), "app", "api", "generate", "garden-prompt.txt");
+const promptFile = path.join(process.cwd(), "app", "api", "generate", "transformed-image.md");
+const textPromptFile = path.join(process.cwd(), "app", "api", "generate", "suggestion-text.md");
 
 const img_gen_prompt = fs.readFileSync(promptFile, "utf8").trim();
+const txt_gen_prompt = fs.readFileSync(textPromptFile, "utf8").trim();
 
 async function createPrompt({imageBase64, mimeType})  {
     const imageUrl = `data:${mimeType};base64,${imageBase64}`;
@@ -59,6 +61,32 @@ async function saveAfterImage({afterImageBase64}) {
     return "/images/after.png";
 }
 
+
+async function generateSuggestions({ beforeImageBase64, mimeType, prompt }) {
+    const imageUrl = `data:${mimeType};base64,${beforeImageBase64}`;
+
+    const response = await openai.responses.create({
+        model: "gpt-5.5",
+        input: [
+            {
+                role: "user",
+                content: [
+                    {
+                        type: "input_text",
+                        text: prompt,
+                    },
+                    {
+                        type: "input_image",
+                        image_url: imageUrl,
+                    },
+                ],
+            },
+        ],
+    });
+
+    return response.output_text;
+}
+
 async function editGardenImage({beforeImageBuffer, after_img, prompt, mimeType}) {
     const startTime = performance.now();
 
@@ -93,18 +121,28 @@ export async function POST(request) {
     const beforeImageBuffer = Buffer.from(await image.arrayBuffer());
     const mimeType = image.type || "image/png";
 
+    let textTips;
+
     console.log(`[${new Date().toISOString()}] Image received. Generating garden design...`);
 
     try {
-        await new Promise((resolve) => setTimeout(resolve, 50000));
+        
+        // generrate text suggestions
+        const beforeImageBase64 = beforeImageBuffer.toString("base64");
 
-        // await editGardenImage({
-        //     beforeImageBuffer,
-        //     after_img: outputFile,
-        //     prompt: img_gen_prompt,
-        //     mimeType,
-        // });  
-       
+        [, textTips] = await Promise.all([
+            editGardenImage({
+                beforeImageBuffer,
+                after_img: outputFile,
+                prompt: img_gen_prompt,
+                mimeType,
+            }),  
+            generateSuggestions({ 
+                beforeImageBase64,
+                mimeType,
+                prompt: txt_gen_prompt,
+            })
+        ]);
 
     } catch (error) {
 
@@ -115,6 +153,7 @@ export async function POST(request) {
 
     return Response.json({
         imageUrl: `/images/after.png?v=${Date.now()}`,
+        textDescription : textTips
     });
 
 }
