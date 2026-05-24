@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 
 
 const tipImages = [
-  "/images/tip1_people.png",
   "/images/tip_annual.png",
   "/images/tip_autumn_leaves.png",
   "/images/tip4_people.png",
@@ -19,6 +18,17 @@ const tipImages = [
   "/images/tip15_people.png",
   
 ];
+
+function getRandomTipIndex(excludeIndex?: number) {
+  if (tipImages.length <= 1) return 0;
+
+  const allowedIndexes = Array.from({ length: tipImages.length }, (_, i) => i)
+        .filter((n) => n !== excludeIndex);
+
+  const randomPos = Math.floor(Math.random() * allowedIndexes.length);
+
+  return allowedIndexes[randomPos];
+}
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -46,7 +56,7 @@ export default function Home() {
       setTipVisible(false);
 
       timeoutId = window.setTimeout(() => {
-        setTipIndex((prevIndex) => (prevIndex + 1) % tipImages.length);
+        setTipIndex((prevIndex) => getRandomTipIndex(prevIndex));
         setTipVisible(true);
       }, 500);
     }, 7000);
@@ -68,7 +78,7 @@ export default function Home() {
 
     if (!file) return;
 
-    setTipIndex(0);
+    setTipIndex(getRandomTipIndex());
     setTipVisible(false);
     
     setLoading(true);
@@ -122,12 +132,9 @@ export default function Home() {
           {/* Page title and short description */}
           <header>
             <h1 className="text-5xl leading-[0.95] font-semibold tracking-tight text-[#1f321d] sm:text-6xl">
-              Garden Genius
+              Ez Garden Visualizer
             </h1>
-            <p className="mt-3 max-w-2xl text-lg leading-7 text-[#526144]">
-              Prototype your garden to perfection: beautiful, affordable, and
-              easy to maintain.
-            </p>
+          
           </header>
 
           {/* Main before/after garden preview layout */}
@@ -212,7 +219,7 @@ export default function Home() {
                       "Suggested Design for You"
                     ) : loading ? (
                       <span className="flex items-center gap-4">
-                        <span>Generating...</span>
+                        <span>Got it! While you're waiting, here are some tips...</span>
                         <img
                           alt="Garden generation in progress"
                           className="h-12 w-48 object-contain"
@@ -248,17 +255,21 @@ export default function Home() {
                     </div>
                   )}
                 </div>
+
+                {textTips && (
+                  <div className="mt-4 rounded-2xl border border-[#c9b38d] bg-[#fffaf0]/90 p-5">
+                    <p className="text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
+                      Design suggestions
+                    </p>
+                    <div
+                      className="suggestion-html mt-3 max-h-96 overflow-y-auto pr-1"
+                      dangerouslySetInnerHTML={{ __html: textTips }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
-
-            {/* text tips */}      
-            <div>
-              <p> Suggestions
-                {textTips}
-              </p>
-            </div>
-
-            </div>
+          </div>
         </div>
       </section>
     </main>

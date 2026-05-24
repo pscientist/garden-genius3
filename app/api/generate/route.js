@@ -153,7 +153,7 @@ export async function POST(request) {
 
     return Response.json({
         imageUrl: `/images/after.png?v=${Date.now()}`,
-        textDescription : textTips
+        textTips : textTips
     });
 
 }
