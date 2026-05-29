@@ -15,9 +15,41 @@ const tipImages = [
   "/images/tip10_people.png",
   "/images/tip13_solar.png",
   "/images/tip14_gravel.png",
-  "/images/tip15_people.png",
+  "/images/tip15_people.jpeg",
   
 ];
+
+const loadingBarStyles = [
+  { color: "#6f8a55", height: "1.75rem", delay: "0ms" },
+  { color: "#7d9458", height: "2rem", delay: "100ms" },
+  { color: "#8a9a52", height: "2.25rem", delay: "200ms" },
+  { color: "#98944c", height: "2.5rem", delay: "300ms" },
+  { color: "#a68848", height: "2.75rem", delay: "400ms" },
+  { color: "#9a7340", height: "3rem", delay: "500ms" },
+  { color: "#7b5a36", height: "3.25rem", delay: "600ms" },
+] as const;
+
+function LoadingBars() {
+  return (
+    <div
+      aria-label="Garden generation in progress"
+      className="loading-bars"
+      role="status"
+    >
+      {loadingBarStyles.map((bar, index) => (
+        <span
+          key={index}
+          className="loading-bar"
+          style={{
+            animationDelay: bar.delay,
+            backgroundColor: bar.color,
+            height: bar.height,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 function getRandomTipIndex(excludeIndex?: number) {
   if (tipImages.length <= 1) return 0;
@@ -131,10 +163,12 @@ export default function Home() {
         <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:min-h-[calc(100vh-5rem)]">
           {/* Page title and short description */}
           <header>
-            <h1 className="text-5xl leading-[0.95] font-semibold tracking-tight text-[#1f321d] sm:text-6xl">
+            <h1 className="font-fraunces text-5xl leading-[0.95] font-semibold tracking-tight text-[#1f321d] sm:text-6xl">
               Ez Garden Visualizer
             </h1>
-          
+            <p className="font-inter mt-2 text-lg font-medium tracking-tight text-[#3a4f35] sm:text-xl">
+              Your Outdoor Lounge, Optimized.
+            </p>
           </header>
 
           {/* Main before/after garden preview layout */}
@@ -144,12 +178,10 @@ export default function Home() {
               <div className="rounded-[2rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-2xl shadow-[#4d5a35]/20 backdrop-blur md:p-5">
                 <div className="flex min-h-[28rem] flex-col rounded-[1.5rem] border border-[#c9b38d] bg-gradient-to-br from-[#fffaf0] via-[#edf3df] to-[#ead7bb] p-5">
                   <div className="mb-4">
-                    <p className="text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
+                    <p className="font-fraunces text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
                       Before
                     </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-[#253d21]">
-                      Your garden photo
-                    </h2>
+                    
                   </div>
 
                   <div className="flex flex-1 items-center justify-center overflow-hidden rounded-3xl border border-[#c9b38d] bg-[#2f281e] p-2 shadow-inner">
@@ -167,17 +199,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
-              {/* Generation progress indicator */}
-              {/* {loading && (
-                <div className="flex justify-center">
-                  <img
-                    alt="Garden generation in progress"
-                    className="h-8 w-full max-w-xs object-contain"
-                    src="/images/progress_bar.gif"
-                  />
-                </div>
-              )} */}
 
 
               {/* Upload and generate controls */}
@@ -211,25 +232,21 @@ export default function Home() {
             <div className="rounded-[2rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-2xl shadow-[#4d5a35]/20 backdrop-blur md:p-5">
               <div className="flex min-h-[28rem] flex-col rounded-[1.5rem] border border-[#c9b38d] bg-gradient-to-br from-[#fffaf0] via-[#edf3df] to-[#ead7bb] p-5">
                 <div className="mb-4">
-                  <p className="text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
+                  <p className="font-fraunces text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
                     After
                   </p>
-                  <h2 className="mt-2 text-2xl font-semibold text-[#253d21]">
-                    {result ? (
-                      "Suggested Design for You"
-                    ) : loading ? (
-                      <span className="flex items-center gap-4">
-                        <span>Got it! While you're waiting, here are some tips...</span>
-                        <img
-                          alt="Garden generation in progress"
-                          className="h-12 w-48 object-contain"
-                          src="/images/progress_bar.gif"
-                        />
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </h2>
+                  {result ? (
+                    <h2 className="mt-2 text-2xl font-semibold text-[#253d21]">
+                      Suggested Design for You
+                    </h2>
+                  ) : loading ? (
+                    <div className="mt-2 flex flex-col gap-4">
+                      <h2 className="text-2xl font-semibold text-[#253d21]">
+                        Got it! While you&apos;re waiting, here are some tips...
+                      </h2>
+                      <LoadingBars />
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="flex flex-1 items-center justify-center overflow-hidden rounded-3xl border border-[#c9b38d] bg-[#2f281e] p-2 shadow-inner">
@@ -258,7 +275,7 @@ export default function Home() {
 
                 {textTips && (
                   <div className="mt-4 rounded-2xl border border-[#c9b38d] bg-[#fffaf0]/90 p-5">
-                    <p className="text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
+                    <p className="font-fraunces text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
                       Design suggestions
                     </p>
                     <div
