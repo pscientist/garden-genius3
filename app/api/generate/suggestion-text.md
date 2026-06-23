@@ -7,7 +7,11 @@ Give:
 
 Keep the advice practical and beginner-friendly,
     DIY possible (for example DIY pressure wash, free mulch from aborists)
-    and the budget to be under $600, excluding any furniture costs.
+    and the budget to be under 
+    
+    $600, 
+    
+excluding any furniture costs.
 
 Please give only short descriptions, no jargons, for a general idea.  Please devide them into sections "Steps for Layout and Foundations" (less or equal to than 5 bullet points), "Plants" (one sentence), "Overall Budget" (one setence).     
 

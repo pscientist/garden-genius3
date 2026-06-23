@@ -10,10 +10,12 @@ const DEFAULT_IMAGE = path.join(
   process.cwd(),
   "public/images/example_before1.jpg",
 );
+
 const DEFAULT_PROMPT = path.join(
   process.cwd(),
-  "scripts/prompts/transformed-image.md",
+  "app/api/generate/gen-image.md",
 );
+
 const DEFAULT_OUTPUT_DIR = path.join(process.cwd(), "scripts/output");
 
 const MIME_BY_EXT = {

@@ -11,56 +11,17 @@ const openai = new OpenAI({
 
 // const inputFile = path.join(process.cwd(), "public", "images", "messy_garden2.png");
 const outputFile = path.join(process.cwd(), "public", "images", "after.png");
-const promptFile = path.join(process.cwd(), "app", "api", "generate", "transformed-image.md");
-const textPromptFile = path.join(process.cwd(), "app", "api", "generate", "suggestion-text.md");
+const promptFile = path.join(process.cwd(), "app", "api", "generate", "gen-image-level1.md");
+const textPromptFile = path.join(process.cwd(), "app", "api", "generate", "gen-image-level1.md");
 
 const img_gen_prompt = fs.readFileSync(promptFile, "utf8").trim();
-const txt_gen_prompt = fs.readFileSync(textPromptFile, "utf8").trim();
 
-async function createPrompt({imageBase64, mimeType})  {
-    const imageUrl = `data:${mimeType};base64,${imageBase64}`;
+// format instructions for text only response
+const txt_gen_prompt =
+  fs.readFileSync(textPromptFile, "utf8").trim() +
+  `Please give only short descriptions, no jargons, for a general idea. Please devide them into sections "Steps for Layout and Foundations" (less or equal to than 5 bullet points), "Plants" (one sentence), "Overall Budget" (one setence).
 
-    const response = await openai.responses.create({
-        model: "gpt-5.5",
-        input: [
-            {
-            role: "user",
-            content: [
-                {
-                type: "input_text",
-                text: img_gen_prompt
-                },
-                {
-                type: "input_image",
-                image_url: imageUrl
-                }
-            ]
-            }
-        ]
-    });
-
-    return response.output_text;
-}; 
-
-async function generateGardenDesignImage({prompt}) {
-    const result = await openai.images.generate({
-        model: "gpt-image-2",
-        prompt: prompt,
-    });
-
-    return result.data[0].b64_json;
-};
-
-async function saveAfterImage({afterImageBase64}) {
-    const bytes = Buffer.from(afterImageBase64, "base64")
-
-    const outputFilePath = path.join(process.cwd(), "public", "images", "after.png");
-    
-    fs.writeFileSync(outputFilePath, bytes);
-
-    return "/images/after.png";
-}
-
+Please return pagragraphs in HTML. `;
 
 async function generateSuggestions({ beforeImageBase64, mimeType, prompt }) {
     const imageUrl = `data:${mimeType};base64,${beforeImageBase64}`;
