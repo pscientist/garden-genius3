@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
+import { HeroHeader } from "@/components/HeroHeader";
+import { ImageUploadPanel } from "@/components/ImageUploadPanel";
+import { ResultPanel } from "@/components/ResultPanel";
+import { SiteBackground } from "@/components/SiteBackground";
+import { TopNavbar } from "@/components/TopNavbar";
 
 const tipImages = [
   "/images/tip_annual.png",
@@ -16,46 +20,13 @@ const tipImages = [
   "/images/tip13_solar.png",
   "/images/tip14_gravel.png",
   "/images/tip15_people.jpeg",
-  
 ];
-
-const loadingBarStyles = [
-  { color: "#6f8a55", height: "1.75rem", delay: "0ms" },
-  { color: "#7d9458", height: "2rem", delay: "100ms" },
-  { color: "#8a9a52", height: "2.25rem", delay: "200ms" },
-  { color: "#98944c", height: "2.5rem", delay: "300ms" },
-  { color: "#a68848", height: "2.75rem", delay: "400ms" },
-  { color: "#9a7340", height: "3rem", delay: "500ms" },
-  { color: "#7b5a36", height: "3.25rem", delay: "600ms" },
-] as const;
-
-function LoadingBars() {
-  return (
-    <div
-      aria-label="Garden generation in progress"
-      className="loading-bars"
-      role="status"
-    >
-      {loadingBarStyles.map((bar, index) => (
-        <span
-          key={index}
-          className="loading-bar"
-          style={{
-            animationDelay: bar.delay,
-            backgroundColor: bar.color,
-            height: bar.height,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 function getRandomTipIndex(excludeIndex?: number) {
   if (tipImages.length <= 1) return 0;
 
   const allowedIndexes = Array.from({ length: tipImages.length }, (_, i) => i)
-        .filter((n) => n !== excludeIndex);
+    .filter((n) => n !== excludeIndex);
 
   const randomPos = Math.floor(Math.random() * allowedIndexes.length);
 
@@ -92,7 +63,7 @@ export default function Home() {
         setTipVisible(true);
       }, 500);
     }, 7000);
-    
+
     return () => {
       window.clearInterval(intervalId);
 
@@ -100,11 +71,9 @@ export default function Home() {
         window.clearTimeout(timeoutId);
       }
     };
-
   }, [loading]);
 
   async function handleSubmit() {
-
     setResult(null);
     setTextTips(null);
 
@@ -112,7 +81,7 @@ export default function Home() {
 
     setTipIndex(getRandomTipIndex());
     setTipVisible(false);
-    
+
     setLoading(true);
 
     const formData = new FormData();
@@ -127,7 +96,7 @@ export default function Home() {
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Failure API call : ", response.status, errorText);
-        return;  
+        return;
       }
 
       const returnedData = await response.json();
@@ -136,156 +105,43 @@ export default function Home() {
 
       setResult(returnedData.imageUrl);
       setTextTips(returnedData.textTips ?? null);
-
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     if (!beforeImgUrl) return;
 
     return () => URL.revokeObjectURL(beforeImgUrl);
-
   }, [beforeImgUrl]);
-
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#eef4df] text-[#21351f]">
       <section className="relative isolate min-h-screen px-6 py-10 sm:px-10 lg:px-16">
-        {/* Background garden-themed color shapes */}
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(90,126,71,0.34),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(138,93,53,0.22),_transparent_30%),linear-gradient(135deg,_#eef4df_0%,_#f7efe2_48%,_#d9c5a6_100%)]" />
-        <div className="absolute left-8 top-10 -z-10 h-56 w-56 rounded-full bg-[#78935b]/24 blur-3xl" />
-        <div className="absolute right-20 top-24 -z-10 h-32 w-52 rounded-[55%_45%_65%_35%] bg-[#9dbb7a]/24 blur-2xl" />
-        <div className="absolute bottom-20 left-20 -z-10 h-24 w-44 rotate-[-12deg] rounded-[65%_35%_45%_55%] bg-[#6f8a55]/20 blur-2xl" />
-        <div className="absolute bottom-8 right-8 -z-10 h-72 w-72 rounded-full bg-[#8a5d35]/18 blur-3xl" />
+        <SiteBackground />
 
         <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:min-h-[calc(100vh-5rem)]">
-          {/* Page title and short description */}
-          <header>
-            <h1 className="font-fraunces text-5xl leading-[0.95] font-semibold tracking-tight text-[#1f321d] sm:text-6xl">
-              GardenViz
-            </h1>
-            <p className="font-inter mt-2 text-lg font-medium tracking-tight text-[#3a4f35] sm:text-xl">
-              Garden Design Visualizer for Busy Homeowners
-            </p>
-          </header>
+          <HeroHeader />
+          <TopNavbar/>
 
           {/* Main before/after garden preview layout */}
           <div className="grid flex-1 items-start gap-5 md:grid-cols-[3fr_7fr]">
-            <div className="flex flex-col gap-4">
-              {/* Before image panel */}
-              <div className="rounded-[2rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-2xl shadow-[#4d5a35]/20 backdrop-blur md:p-5">
-                <div className="flex min-h-[28rem] flex-col rounded-[1.5rem] border border-[#c9b38d] bg-gradient-to-br from-[#fffaf0] via-[#edf3df] to-[#ead7bb] p-5">
-                  <div className="mb-4">
-                    <p className="font-fraunces text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
-                      Before
-                    </p>
-                    
-                  </div>
+            <ImageUploadPanel
+              beforeImgUrl={beforeImgUrl}
+              file={file}
+              loading={loading}
+              onFileChange={setFile}
+              onSubmit={handleSubmit}
+            />
 
-                  <div className="flex flex-1 items-center justify-center overflow-hidden rounded-3xl border border-[#c9b38d] bg-[#2f281e] p-2 shadow-inner">
-                    {beforeImgUrl ? (
-                      <img
-                        alt="Before garden photo"
-                        className="h-full min-h-[20rem] w-full rounded-[1.25rem] object-cover"
-                        src={beforeImgUrl}
-                      />
-                    ) : (
-                      <div className="flex min-h-[20rem] w-full items-center justify-center rounded-[1.25rem] bg-[#fbf5e8]/10 px-8 text-center text-sm leading-6 text-[#fbf5e8]/75">
-                        Upload a garden photo to see your before image here.
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-
-              {/* Upload and generate controls */}
-              <div className="rounded-[1.5rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-xl shadow-[#4d5a35]/12 backdrop-blur">
-                <label className="group flex min-h-20 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#8ea56e] bg-white/55 px-5 py-4 text-center transition hover:border-[#8a5d35] hover:bg-white/75">
-                  <input
-                    className="sr-only"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                  />
-                  <span className="rounded-full bg-[#2f4f29] px-4 py-2 text-sm font-semibold text-[#fbf5e8] shadow-lg shadow-[#2f4f29]/20 transition group-hover:bg-[#45663a]">
-                    Choose image
-                  </span>
-                  <span className="mt-2 text-sm text-[#536246]">
-                    {file ? file.name : "PNG, JPG, or HEIC garden photo"}
-                  </span>
-                </label>
-
-                <button
-                  className="mt-3 w-full rounded-full bg-[#294823] px-6 py-3 text-base font-semibold text-[#fbf5e8] shadow-xl shadow-[#2f4f29]/25 transition hover:-translate-y-0.5 hover:bg-[#3d6535] disabled:cursor-not-allowed disabled:bg-[#9baa8b] disabled:shadow-none"
-                  disabled={!file || loading}
-                  onClick={handleSubmit}
-                >
-                  {loading ? "Composing your garden..." : "Generate Garden"}
-                </button>
-              </div>
-            </div>
-
-            {/* After image panel */}
-            <div className="rounded-[2rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-2xl shadow-[#4d5a35]/20 backdrop-blur md:p-5">
-              <div className="flex min-h-[28rem] flex-col rounded-[1.5rem] border border-[#c9b38d] bg-gradient-to-br from-[#fffaf0] via-[#edf3df] to-[#ead7bb] p-5">
-                <div className="mb-4">
-                  <p className="font-fraunces text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
-                    After
-                  </p>
-                  {result ? (
-                    <h2 className="mt-2 text-2xl font-semibold text-[#253d21]">
-                      Suggested Design for You
-                    </h2>
-                  ) : loading ? (
-                    <div className="mt-2 flex flex-col gap-4">
-                      <h2 className="text-2xl font-semibold text-[#253d21]">
-                        Got it! While you&apos;re waiting, here are some tips...
-                      </h2>
-                      <LoadingBars />
-                    </div>
-                  ) : null}
-                </div>
-
-                <div className="flex flex-1 items-center justify-center overflow-hidden rounded-3xl border border-[#c9b38d] bg-[#2f281e] p-2 shadow-inner">
-                  {result ? (
-                    <img
-                      alt="Generated garden design concept"
-                      className="h-full min-h-[20rem] w-full rounded-[1.25rem] object-cover"
-                      src={result}
-                    />
-                  ) : loading ? (
-                    <div className="flex h-full min-h-[20rem] w-full items-center justify-center">
-                      <img
-                        src={currentTipImage}
-                        alt="Current tip"
-                        className={`h-full w-full rounded-[1.25rem] object-contain transition-opacity duration-500 ${
-                          tipVisible ? "opacity-100" : "opacity-0"
-                        }`}
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex min-h-[20rem] w-full items-center justify-center rounded-[1.25rem] bg-[#fbf5e8]/10 px-8 text-center text-sm leading-6 text-[#fbf5e8]/75">
-                      Generate your design to see the after image here.
-                    </div>
-                  )}
-                </div>
-
-                {textTips && (
-                  <div className="mt-4 rounded-2xl border border-[#c9b38d] bg-[#fffaf0]/90 p-5">
-                    <p className="font-fraunces text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
-                      Design suggestions
-                    </p>
-                    <div
-                      className="suggestion-html mt-3 max-h-96 overflow-y-auto pr-1"
-                      dangerouslySetInnerHTML={{ __html: textTips }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+            <ResultPanel
+              result={result}
+              loading={loading}
+              currentTipImage={currentTipImage}
+              tipVisible={tipVisible}
+              textTips={textTips}
+            />
           </div>
         </div>
       </section>
