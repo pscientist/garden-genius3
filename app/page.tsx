@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { HeroHeader } from "@/components/HeroHeader";
+import { LogoTitle } from "@/components/LogoTitle";
 import { ImageUploadPanel } from "@/components/ImageUploadPanel";
 import { ResultPanel } from "@/components/ResultPanel";
 import { SiteBackground } from "@/components/SiteBackground";
 import { TopNavbar } from "@/components/TopNavbar";
+import { UserNav } from "@/components/UserNav";
 
 const tipImages = [
   "/images/tip_annual.png",
@@ -122,8 +123,18 @@ export default function Home() {
         <SiteBackground />
 
         <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:min-h-[calc(100vh-5rem)]">
-          <HeroHeader />
-          <TopNavbar/>
+          
+          <div className="flex w-full flex-col gap-4 border border-dashed border-purple-500 md:flex-row md:items-center">
+            <div className="flex w-full flex-1 justify-start border border-dashed border-blue-500">
+              <LogoTitle />
+            </div>
+            <div className="shrink-0 self-center border border-dashed border-green-500 md:self-auto">
+              <TopNavbar />
+            </div>
+            <div className="flex w-full flex-1 justify-end border border-dashed border-orange-500">
+              <UserNav />
+            </div>
+          </div>
 
           {/* Main before/after garden preview layout */}
           <div className="grid flex-1 items-start gap-5 md:grid-cols-[3fr_7fr]">
