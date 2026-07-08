@@ -1,7 +1,7 @@
 export function UserNav() {
     return (
         <nav id="user_nav" className="flex w-full list-none flex-wrap">
-            <ul className="font-inter flex w-full items-center justify-between gap-4 text-sm font-normal text-[#1f321d]">
+            <ul className="font-inter flex w-full items-center justify-end gap-4 text-sm font-normal text-[#1f321d]">
                 <li className="flex items-center gap-1.5 hover:opacity-80">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@ export function UserNav() {
                         strokeWidth={1.5}
                         stroke="currentColor"
                         aria-hidden="true"
-                        className="h-4 w-4 shrink-0"
+                        className="h-3.5 w-3.5 shrink-0"
                     >
                         <path
                             strokeLinecap="round"

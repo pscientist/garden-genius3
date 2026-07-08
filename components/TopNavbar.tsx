@@ -1,7 +1,7 @@
 export function TopNavbar() {
   return (
     <nav aria-label="Main">
-      <ul className="font-inter flex list-none flex-wrap items-center gap-6 text-sm font-normal text-[#3a4f35] sm:gap-8">
+      <ul className="font-inter flex list-none flex-wrap items-center gap-6 text-sm font-medium text-main-nav sm:gap-8">
         <li>
           <a
             href="#"

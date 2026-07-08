@@ -7,6 +7,8 @@
 }
 
 @theme inline {
+  --color-main-nav: #3a4f35;
+  --color-debug: #0000ff;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans:  Georgia, ui-sans-serif, system-ui, sans-serif;

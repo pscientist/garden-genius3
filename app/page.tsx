@@ -124,14 +124,14 @@ export default function Home() {
 
         <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:min-h-[calc(100vh-5rem)]">
           
-          <div className="flex w-full flex-col gap-4 border border-dashed border-purple-500 md:flex-row md:items-center">
-            <div className="flex w-full flex-1 justify-start border border-dashed border-blue-500">
+          <div className="flex w-full flex-col gap-4 md:flex-row md:items-center">
+            <div className="flex w-full flex-1 justify-start">
               <LogoTitle />
             </div>
-            <div className="shrink-0 self-center border border-dashed border-green-500 md:self-auto">
+            <div className="shrink-0 self-center md:self-auto">
               <TopNavbar />
             </div>
-            <div className="flex w-full flex-1 justify-end border border-dashed border-orange-500">
+            <div className="flex w-full flex-1 justify-end">
               <UserNav />
             </div>
           </div>
