@@ -1,7 +1,7 @@
 export function UserNav() {
     return (
         <nav id="user_nav" className="flex w-full list-none flex-wrap">
-            <ul className="font-inter flex w-full items-center justify-end gap-4 text-sm font-normal text-[#1f321d]">
+            <ul className="font-inter flex w-full items-center justify-end gap-4 text-sm font-normal text-main-nav">
                 <li className="flex items-center gap-1.5 hover:opacity-80">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

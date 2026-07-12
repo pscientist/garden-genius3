@@ -136,6 +136,20 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="flex w-full gap-10">
+
+
+            <div className="flex-1 flex flex-col items-start border-2 border-red-500">
+              <div className="font-bold text-xl">Makeover Garden Ideas</div> 
+              <div> Real transformations , real results, see what's possible </div>
+            </div>
+            
+
+            <div className="flex flex-1 justify-end border-2 border-blue-500">
+              search filters
+            </div>
+          </div>
+
           {/* Main before/after garden preview layout */}
           <div className="grid flex-1 items-start gap-5 md:grid-cols-[3fr_7fr]">
             <ImageUploadPanel

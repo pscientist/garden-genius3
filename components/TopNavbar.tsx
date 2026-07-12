@@ -6,7 +6,7 @@ export function TopNavbar() {
           <a
             href="#"
             aria-current="page"
-            className="border-b border-[#1f321d] pb-0.5 text-[#1f321d] no-underline hover:opacity-80"
+            className="border-b border-hover-active pb-0.5 text-hover-active no-underline hover:opacity-80"
           >
             Inspiration
           </a>
@@ -14,7 +14,7 @@ export function TopNavbar() {
         <li>
           <a
             href="#"
-            className="no-underline hover:text-[#1f321d] hover:opacity-80"
+            className="no-underline hover:text-hover-active hover:opacity-80"
           >
             How It Works
           </a>
@@ -22,7 +22,7 @@ export function TopNavbar() {
         <li>
           <a
             href="#"
-            className="no-underline hover:text-[#1f321d] hover:opacity-80"
+            className="no-underline hover:text-hover-active hover:opacity-80"
           >
             Pricing
           </a>
@@ -30,7 +30,7 @@ export function TopNavbar() {
         <li>
           <a
             href="#"
-            className="no-underline hover:text-[#1f321d] hover:opacity-80"
+            className="no-underline hover:text-hover-active hover:opacity-80"
           >
             About
           </a>
