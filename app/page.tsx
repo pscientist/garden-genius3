@@ -7,6 +7,10 @@ import { ResultPanel } from "@/components/ResultPanel";
 import { SiteBackground } from "@/components/SiteBackground";
 import { TopNavbar } from "@/components/TopNavbar";
 import { UserNav } from "@/components/UserNav";
+import { SearchFilters } from "@/components/SearchFilters";
+import { SubTitle } from "@/components/SubTitle";
+import { GalleryImageCard } from "@/components/GalleryImageCard";
+
 
 const tipImages = [
   "/images/tip_annual.png",
@@ -124,7 +128,7 @@ export default function Home() {
 
         <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:min-h-[calc(100vh-5rem)]">
           
-          <div className="flex w-full flex-col gap-4 md:flex-row md:items-center">
+          <div className="flex w-full gap-4 border-b pb-6 border-main-nav/20 md:flex-row md:items-center flex-col">
             <div className="flex w-full flex-1 justify-start">
               <LogoTitle />
             </div>
@@ -136,21 +140,38 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex w-full gap-10">
-
-
-            <div className="flex-1 flex flex-col items-start border-2 border-red-500">
-              <div className="font-bold text-xl">Makeover Garden Ideas</div> 
-              <div> Real transformations , real results, see what's possible </div>
+          <div className="flex w-full gap-10 py-4 items-center">
+            <div className="shrink-0 flex flex-col items-start">
+              <SubTitle />
             </div>
             
-
-            <div className="flex flex-1 justify-end border-2 border-blue-500">
-              search filters
+            <div className="flex flex-1 items-start justify-end">
+              <SearchFilters />
             </div>
           </div>
 
-          {/* Main before/after garden preview layout */}
+          <div id="gallery" className="grid gap-4 grid-cols-2"> 
+            <GalleryImageCard
+                beforeSrc="/images/before_images/messy10.png" 
+                afterSrc="/images/after_images/messy10_cleaned.png"/>
+          
+            <GalleryImageCard 
+                beforeSrc="/images/before_images/messy9.png" 
+                afterSrc="/images/after_images/messy9_after.png"
+            />
+
+            <GalleryImageCard
+                beforeSrc="/images/before_images/messy7.png" 
+                afterSrc="/images/after_images/messy7_cleaned.png"/>
+          
+            <GalleryImageCard 
+                beforeSrc="/images/before_images/messy8.png" 
+                afterSrc="/images/after_images/messy8_cleaned.png"
+            />
+              
+          </div>
+
+          {/* Main before/after garden preview layout 
           <div className="grid flex-1 items-start gap-5 md:grid-cols-[3fr_7fr]">
             <ImageUploadPanel
               beforeImgUrl={beforeImgUrl}
@@ -168,6 +189,8 @@ export default function Home() {
               textTips={textTips}
             />
           </div>
+          */}
+
         </div>
       </section>
     </main>
