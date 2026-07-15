@@ -1,0 +1,12 @@
+
+.image-title {
+    font-family: var(--font-page-title);
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+
+.image-subtitle {
+  font-family: var(--font-page-title);
+  font-size: 0.75rem;
+}  

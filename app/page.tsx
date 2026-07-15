@@ -152,20 +152,29 @@ export default function Home() {
 
           <div id="gallery" className="grid gap-4 grid-cols-2"> 
             <GalleryImageCard
-                beforeSrc="/images/before_images/messy10.png" 
-                afterSrc="/images/after_images/messy10_cleaned.png"/>
+                title="Lifestyle and BBQ"
+                subtitle="Modern backyard for entertaining"
+                beforeSrc="/images/before_images/messy8.png" 
+                afterSrc="/images/after_images/messy8_cleaned.png"/>
           
-            <GalleryImageCard 
-                beforeSrc="/images/before_images/messy9.png" 
+            <GalleryImageCard
+                title="Cottage Garden Refresh"
+                subtitle="Soft borders and winding paths"
+                beforeSrc="/images/before_images/messy9.png"
                 afterSrc="/images/after_images/messy9_after.png"
             />
 
             <GalleryImageCard
-                beforeSrc="/images/before_images/messy7.png" 
-                afterSrc="/images/after_images/messy7_cleaned.png"/>
-          
-            <GalleryImageCard 
-                beforeSrc="/images/before_images/messy8.png" 
+                title="Low-Maintenance Greens"
+                subtitle="Native plants with easy care beds"
+                beforeSrc="/images/before_images/messy7.png"
+                afterSrc="/images/after_images/messy7_cleaned.png"
+            />
+
+            <GalleryImageCard
+                title="Family Courtyard"
+                subtitle="Play space with seating and shade"
+                beforeSrc="/images/before_images/messy8.png"
                 afterSrc="/images/after_images/messy8_cleaned.png"
             />
               

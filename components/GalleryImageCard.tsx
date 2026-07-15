@@ -1,55 +1,47 @@
+import styles from '@/components/GalleryImageCard.module.css';
+
 export type GalleryImageCardProps = {
+    title: string,
+    subtitle: string,
     beforeSrc: string;
     afterSrc: string;
 }
 
-const showFlexDebugOutlines = true;
+const showFlexDebugOutlines = false;
 const flexDebugOutline = showFlexDebugOutlines
     ? "[&>*]:outline [&>*]:outline-1 [&>*]:outline-debug"
     : "";
 
 function CardIcon({ children }: { children: React.ReactNode }) {
     return (
-        <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center text-main-nav">
+        <span className="icon h-4 w-4 text-main-nav">
             {children}
         </span>
     );
 }
 
-function CardLabel({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+function CardLabel({ icon, children }: { icon: React.ReactNode; children: React.ReactNode}) {
     return (
         <span className="inline-flex items-center gap-1.5 text-sm text-main-nav">
-            <svg className="icon h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"       
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-            >
-                <path d="M12 2 3 11v4l9 9 9-9v-4L12 2Z" />
-                <circle cx="7.5" cy="7.5" r="1.25" fill="currentColor" stroke="none" />
-            </svg>
+            {icon}
             <span className="label">{children}</span>
         </span>
     );
 }
 
-export function GalleryImageCard({ beforeSrc, afterSrc } : GalleryImageCardProps ) {
+export function GalleryImageCard({ title, subtitle, beforeSrc, afterSrc } : GalleryImageCardProps ) {
     return (
-        <div>
-            <div className="flex gap-1 px-2 py-2">
-                <div className="flex-1 aspect-4/3 overflow-hidden">
+        <div className="border-1 rounded-xl border-main-nav/20">
+            <div className="flex gap-1">
+                <div className="flex-1 aspect-4/3 overflow-hidden border-1 rounded-tl-xl">
                     <img
                         src={beforeSrc}
                         alt="Before"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover grayscale-70"
                     />
                 </div>
 
-                <div className="flex-1 aspect-4/3 overflow-hidden">
+                <div className="flex-1 aspect-4/3 overflow-hidden border-1 rounded-tr-xl">
                     <img
                         src={afterSrc}
                         alt="After"
@@ -57,15 +49,19 @@ export function GalleryImageCard({ beforeSrc, afterSrc } : GalleryImageCardProps
                     />
                 </div>
             </div>
-            <div> Dream Backyard Makeover</div>
-            <div> [subtitle] </div>
-            <div className={`flex items-center justify-between gap-3 px-2 py-2 ${flexDebugOutline}`}>
-                <div className={`flex flex-wrap items-center gap-x-4 gap-y-1 ${flexDebugOutline}`}>
-                    <CardLabel icon={<PriceTagIcon />}>$1,000 - $2,000</CardLabel>
-                    <CardLabel icon={<DifficultyIcon />}>Medium Skills</CardLabel>
-                    <CardLabel icon={<LeafIcon />}>Low Maint</CardLabel>
+            
+            <div className={`bottom_info_wrapper px-2 ${flexDebugOutline}`}>
+                <div className={`${styles["image-title"]} ${flexDebugOutline} mt-2`}>{title}</div>
+                <div className={`${styles["image-subtitle"]} ${flexDebugOutline}`}>{subtitle}</div>
+                <div className={`icons_labels_row flex items-center justify-between gap-3 py-2 ${flexDebugOutline}`}>
+                    <div className={`flex  flex-wrap items-center gap-x-4 gap-y-1 ${flexDebugOutline}`}>
+                        <CardLabel icon={<PriceTagIcon />}>$1,000 - $2,000</CardLabel>
+                        <CardLabel icon={<DifficultyIcon />}>Medium Skills</CardLabel>
+                        <CardLabel icon={<LeafIcon />}>Low Maint</CardLabel>
+                    </div>
+                    <HeartIcon />
                 </div>
-                <HeartIcon />
+            
             </div>
         </div>
     );
