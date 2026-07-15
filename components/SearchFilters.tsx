@@ -1,9 +1,7 @@
 const filterLabels = [
   "Budget",
-  "Garden Type",
-  "Style",
-  "Effort",
-  "Problem Solved",
+  "Skills",
+  "Maintenance",
 ] as const;
 
 function ChevronDownIcon() {

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function UserNav() {
     return (
         <nav id="user_nav" className="flex w-full list-none flex-wrap">
@@ -21,12 +23,12 @@ export function UserNav() {
                     Saved (12)
                 </li>
                 <li>
-                    <a
-                        href="#"
-                        className="inline-block rounded-xl bg-[#1b3b24] px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#1b3b24]/20 transition hover:bg-[#224229] hover:shadow-lg hover:shadow-[#1b3b24]/25"
+                    <Link
+                        href="/visualise"
+                        className="inline-block rounded-xl bg-[#1b3b24] px-5 py-2.5 text-sm font-semibold text-white no-underline shadow-md shadow-[#1b3b24]/20 transition hover:bg-[#224229] hover:shadow-lg hover:shadow-[#1b3b24]/25"
                     >
                         Visualize My Garden
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </nav>
