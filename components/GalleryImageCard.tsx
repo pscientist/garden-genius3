@@ -31,7 +31,7 @@ function CardLabel({ icon, children }: { icon: React.ReactNode; children: React.
 
 export function GalleryImageCard({ title, subtitle, beforeSrc, afterSrc } : GalleryImageCardProps ) {
     return (
-        <div className="border-1 rounded-xl border-main-nav/20">
+        <div className="border-1 rounded-xl border-main-nav/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div className="flex gap-1">
                 <div className="flex-1 aspect-4/3 overflow-hidden border-1 rounded-tl-xl">
                     <img
