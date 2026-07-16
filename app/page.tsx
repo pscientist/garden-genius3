@@ -1,12 +1,77 @@
+"use client";
+
 import { LogoTitle } from "@/components/LogoTitle";
 import { SiteBackground } from "@/components/SiteBackground";
 import { TopNavbar } from "@/components/TopNavbar";
 import { UserNav } from "@/components/UserNav";
 import { SearchFilters } from "@/components/SearchFilters";
 import { SubTitle } from "@/components/SubTitle";
-import { GalleryImageCard } from "@/components/GalleryImageCard";
+import { GalleryImageCard, type GalleryImageCardProps } from "@/components/GalleryImageCard";
+import { useState, useEffect } from "react";
+
+const initialImages: GalleryImageCardProps[] = [
+  {
+    title: "Lifestyle and BBQ",
+    subtitle: "Modern backyard for entertaining",
+    beforeSrc: "/images/placeholder-before-1.png",
+    afterSrc: "/images/placeholder-after-1.png",
+    cost: "1000",
+    skill: "low",
+    maint: "low",
+  },
+  {
+    title: "Cottage Garden Refresh",
+    subtitle: "Soft borders and winding paths",
+    beforeSrc: "/images/placeholder-before-2.png",
+    afterSrc: "/images/placeholder-after-2.png",
+    cost: "500",
+    skill: "medium",
+    maint: "medium",
+  },
+  {
+    title: "Low-Maintenance Greens",
+    subtitle: "Native plants with easy care beds",
+    beforeSrc: "/images/placeholder-before-3.png",
+    afterSrc: "/images/placeholder-after-3.png",
+    cost: "800",
+    skill: "low",
+    maint: "low",
+  },
+  {
+    title: "Family Courtyard",
+    subtitle: "Play space with seating and shade",
+    beforeSrc: "/images/placeholder-before-4.png",
+    afterSrc: "/images/placeholder-after-4.png",
+    cost: "2000",
+    skill: "medium",
+    maint: "low",
+  },
+  {
+    title: "Urban Jungle Patio",
+    subtitle: "Container planting on a small deck",
+    beforeSrc: "/images/placeholder-before-5.png",
+    afterSrc: "/images/placeholder-after-5.png",
+    cost: "300",
+    skill: "advanced",
+    maint: "guru",
+  },
+  {
+    title: "Weekend Warrior Yard",
+    subtitle: "Quick wins with gravel and raised beds",
+    beforeSrc: "/images/placeholder-before-6.png",
+    afterSrc: "/images/placeholder-after-6.png",
+    cost: "1500",
+    skill: "advanced",
+    maint: "medium",
+  },
+];
 
 export default function Home() {
+  const [galleryItems, setGalleryItems] = useState<GalleryImageCardProps[]>([]); 
+
+  useEffect(() => {
+    setGalleryItems(initialImages);
+  }, []);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#eef4df] text-[#21351f]">
@@ -27,6 +92,7 @@ export default function Home() {
             </div>
           </div>
 
+
           <div className="flex w-full gap-10 py-4 items-center">
             <div className="shrink-0 flex flex-col items-start">
               <SubTitle />
@@ -38,35 +104,14 @@ export default function Home() {
           </div>
 
           <div id="gallery" className="grid gap-x-10 gap-y-10 grid-cols-2"> 
-            <GalleryImageCard
-                title="Lifestyle and BBQ"
-                subtitle="Modern backyard for entertaining"
-                beforeSrc="/images/before_images/messy8.png" 
-                afterSrc="/images/after_images/messy8_cleaned.png"/>
-          
-            <GalleryImageCard
-                title="Cottage Garden Refresh"
-                subtitle="Soft borders and winding paths"
-                beforeSrc="/images/before_images/messy9.png"
-                afterSrc="/images/after_images/messy9_after.png"
-            />
-
-            <GalleryImageCard
-                title="Low-Maintenance Greens"
-                subtitle="Native plants with easy care beds"
-                beforeSrc="/images/before_images/messy7.png"
-                afterSrc="/images/after_images/messy7_cleaned.png"
-            />
-
-            <GalleryImageCard
-                title="Family Courtyard"
-                subtitle="Play space with seating and shade"
-                beforeSrc="/images/before_images/messy8.png"
-                afterSrc="/images/after_images/messy8_cleaned.png"
-            />
-              
+            {galleryItems.map((item, index) => (
+                <GalleryImageCard key={index} {...item} />
+            ))}
           </div>
 
+
+
+          
         </div>
       </section>
     </main>

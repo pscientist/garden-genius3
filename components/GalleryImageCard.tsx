@@ -5,6 +5,9 @@ export type GalleryImageCardProps = {
     subtitle: string,
     beforeSrc: string;
     afterSrc: string;
+    cost: string;
+    skill: string; // low , medium, advanced
+    maint: string; // low, medium, guru
 }
 
 const showFlexDebugOutlines = false;
@@ -29,7 +32,7 @@ function CardLabel({ icon, children }: { icon: React.ReactNode; children: React.
     );
 }
 
-export function GalleryImageCard({ title, subtitle, beforeSrc, afterSrc } : GalleryImageCardProps ) {
+export function GalleryImageCard({ title, subtitle, beforeSrc, afterSrc, cost, skill, maint } : GalleryImageCardProps ) {
     return (
         <div className="border-1 rounded-xl border-main-nav/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div className="flex gap-1">
@@ -55,9 +58,9 @@ export function GalleryImageCard({ title, subtitle, beforeSrc, afterSrc } : Gall
                 <div className={`${styles["image-subtitle"]} ${flexDebugOutline}`}>{subtitle}</div>
                 <div className={`icons_labels_row flex items-center justify-between gap-3 py-2 ${flexDebugOutline}`}>
                     <div className={`flex  flex-wrap items-center gap-x-4 gap-y-1 ${flexDebugOutline}`}>
-                        <CardLabel icon={<PriceTagIcon />}>$1,000 - $2,000</CardLabel>
-                        <CardLabel icon={<DifficultyIcon />}>Medium Skills</CardLabel>
-                        <CardLabel icon={<LeafIcon />}>Low Maint</CardLabel>
+                        <CardLabel icon={<PriceTagIcon />}>{cost}</CardLabel>
+                        <CardLabel icon={<DifficultyIcon />}>{skill}</CardLabel>
+                        <CardLabel icon={<LeafIcon />}>{maint}</CardLabel>
                     </div>
                     <HeartIcon />
                 </div>
