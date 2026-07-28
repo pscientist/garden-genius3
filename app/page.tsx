@@ -5,9 +5,11 @@ import { SiteBackground } from "@/components/SiteBackground";
 import { TopNavbar } from "@/components/TopNavbar";
 import { UserNav } from "@/components/UserNav";
 import { SearchFilters } from "@/components/SearchFilters";
-import { SubTitle } from "@/components/SubTitle";
+import { SearchBox } from "@/components/SearchBox";
+import { PageTitle } from "@/components/PageTitle";
 import { GalleryImageCard, type GalleryImageCardProps } from "@/components/GalleryImageCard";
 import { useState } from "react";
+import RegionSelect from "@/components/RegionSelect";
 
 const initialImages: GalleryImageCardProps[] = [
   {
@@ -68,15 +70,29 @@ const initialImages: GalleryImageCardProps[] = [
 
 export default function Home() {
 
+  const [budgetFilter, setBudgetFilter] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [siteRegion, setSiteRegion] = useState('');
+
+  const showFlexDebugOutlines = false;
+  const flexDebugOutline = showFlexDebugOutlines
+    ? "[&>*]:outline [&>*]:outline-1 [&>*]:outline-debug"
+    : "";
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#eef4df] text-[#21351f]">
       <section className="relative isolate min-h-screen px-6 py-10 sm:px-10 lg:px-16">
         <SiteBackground />
 
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:min-h-[calc(100vh-5rem)]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6]">
+
+          <div className="flex items-start justify-end h-10">
+              <RegionSelect siteRegion={siteRegion} onRegionChange={setSiteRegion} />
+          </div>
+
           <div className="flex w-full gap-4 border-b pb-6 border-main-nav/20 md:flex-row md:items-center flex-col">
             <div className="flex w-full flex-1 justify-start">
-              <LogoTitle />
+              <LogoTitle /> 
             </div>
             <div className="shrink-0 self-center md:self-auto">
               <TopNavbar />
@@ -86,21 +102,27 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex w-full gap-10 py-4 items-center">
-            <div className="shrink-0 flex flex-col items-start">
-              <SubTitle />
+          <div className={`flex w-full gap-10 py-4 items-start ${flexDebugOutline}`}>
+            <div className="min-w-0 flex-1 flex flex-col items-start">
+              <PageTitle siteRegion={siteRegion}/>
             </div>
-            
-            <div className="flex flex-1 items-start justify-end">
-              <SearchFilters />
+
+            <div className="flex shrink-0 items-start justify-end">
+              <SearchBox searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+            </div>
+
+            <div className="flex shrink-0 items-start justify-end">
+              <SearchFilters budgetFilter={budgetFilter} onBudgetChange={setBudgetFilter}/>
             </div>
           </div>
 
           <div id="gallery" className="grid gap-x-10 gap-y-10 grid-cols-2"> 
             {initialImages.filter((item) => {
-                item.cost === costFilter 
-            }
-            }
+              const term = searchTerm.toLowerCase();
+
+              return (item.title.toLowerCase().includes(term) 
+                      || item.subtitle.toLowerCase().includes(term))
+            }).map((item) => <GalleryImageCard key={item.title} {...item} />)}
           </div>
         </div>
       </section>

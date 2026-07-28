@@ -40,7 +40,7 @@ export function GalleryImageCard({ title, subtitle, beforeSrc, afterSrc, cost, s
                     <img
                         src={beforeSrc}
                         alt="Before"
-                        className="h-full w-full object-cover grayscale-70"
+                        className="h-full w-full object-cover"
                     />
                 </div>
 

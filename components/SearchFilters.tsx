@@ -36,22 +36,20 @@ function ClearIcon() {
   );
 }
 
-export function SearchFilters() {
+type SearchFiltersProps = {
+  budgetFilter: string;
+  onBudgetChange: (value: string) => void;
+}
+
+export function SearchFilters({budgetFilter, onBudgetChange}: SearchFiltersProps) {
   return (
     <div className="font-inter flex flex-wrap items-center justify-end gap-3">
-      {filterLabels.map((label) => (
-        <button
-          key={label}
-          type="button"
-          aria-haspopup="listbox"
-          aria-label={`Filter by ${label}`}
-          className="inline-flex items-center gap-2 rounded-lg border border-[#d1d5db] bg-white px-4 py-2 text-sm font-normal text-[#374151] shadow-sm transition hover:border-[#9ca3af] hover:bg-[#fafafa]"
-        >
-          {label}
-          <ChevronDownIcon />
-        </button>
-      ))}
-
+      <select value={budgetFilter} onChange={(e) => { onBudgetChange(e.target.value)}} className="border-1 px-1 py-1 border-main-nav/20 rounded-lg"> 
+        <option value="">Budget...</option>
+        <option value="Under 500">$500</option>
+        <option value="500-1000">$500 - $1000</option>
+        <option value="Over 1000">Over $1000</option>
+      </select>
       <button
         type="button"
         className="inline-flex items-center gap-1.5 px-1 text-sm font-medium text-main-nav transition hover:text-hover-active hover:opacity-80"

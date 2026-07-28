@@ -1,4 +1,4 @@
-export function SubTitle() {
+export function PageTitle() {
     return (
         <>
             <div className="page-title">Makeover Garden Ideas</div> 
