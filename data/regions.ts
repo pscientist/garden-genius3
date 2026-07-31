@@ -2,6 +2,7 @@ export const REGIONS = [
   {
     id: "tropical",
     label: "Tropical",
+    chips: ["Palms", "Bold foliage", "Humidity-loving plants"],
     description:
       "Warm temperatures, high humidity, and lush greenery define tropical climates. " +
       "With little to no frost, plants grow vigorously throughout the year, creating gardens that feel vibrant, layered, and full of life. " +
@@ -11,6 +12,7 @@ export const REGIONS = [
   {
     id: "temperate",
     label: "Temperate",
+    chips: ["Layered planting", "Seasonal colour", "Easy-care structure"],
     description:
       "Temperate climates offer mild temperatures and distinct seasons, making them one of the most versatile environments for gardening. " +
       "Reliable rainfall and moderate weather support a wide variety of trees, shrubs, lawns, and flowering plants. " +
@@ -18,8 +20,9 @@ export const REGIONS = [
       "From contemporary landscapes to classic family gardens, temperate planting provides endless opportunities for colour, texture, and seasonal interest.",
   },
   {
-    id: "mediterranean",
+    id: "med",
     label: "Mediterranean",
+    chips: ["Drought-tolerant", "Gravel textures", "Sun-loving shrubs"],
     description:
       "Mediterranean climates feature warm, dry summers and cool, wetter winters. " +
       "Gardens here are designed to thrive with less water while embracing natural textures, open spaces, and abundant sunshine. " +
@@ -29,6 +32,7 @@ export const REGIONS = [
   {
     id: "coastal",
     label: "Coastal",
+    chips: ["Salt-tolerant plants", "Windbreak layers", "Soft grasses"],
     description:
       "Coastal gardens experience strong winds, salty air, and constantly changing weather. " +
       "Successful planting focuses on resilience, using species that tolerate challenging conditions while maintaining year-round structure and beauty. " +
@@ -36,8 +40,9 @@ export const REGIONS = [
       "Coastal gardens often feel calm, natural, and perfectly connected to the surrounding landscape.",
   },
   {
-    id: "alpine-cold",
+    id: "alpine",
     label: "Alpine & Cold",
+    chips: ["Frost-hardy picks", "Evergreen backbone", "Winter texture"],
     description:
       "Cold climate gardens experience frosty winters, cool growing seasons, and, in many regions, snowfall. " +
       "Plant selection focuses on hardy species that provide structure and seasonal beauty despite the changing conditions. " +

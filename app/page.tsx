@@ -10,8 +10,10 @@ import { PageTitle } from "@/components/PageTitle";
 import { GalleryImageCard, type GalleryImageCardProps } from "@/components/GalleryImageCard";
 import { useState } from "react";
 import RegionSelect from "@/components/RegionSelect";
+import { filterImages } from "@/app/lib/filterGallery";
+import { GalleryItem } from "@/types/gallery"; 
 
-const initialImages: GalleryImageCardProps[] = [
+const initialImages: GalleryItem[] = [
   {
     title: "Lifestyle and BBQ",
     subtitle: "Modern backyard for entertaining",
@@ -82,12 +84,12 @@ export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#eef4df] text-[#21351f]">
       <section className="relative isolate min-h-screen px-6 py-10 sm:px-10 lg:px-16">
-        <SiteBackground />
+        <SiteBackground siteRegion={siteRegion}/>
 
         <div className="mx-auto flex max-w-7xl flex-col gap-6]">
 
           <div className="flex items-start justify-end h-10">
-              <RegionSelect siteRegion={siteRegion} onRegionChange={setSiteRegion} />
+              <RegionSelect siteRegion={siteRegion} onRegionSelect={setSiteRegion}/>
           </div>
 
           <div className="flex w-full gap-4 border-b pb-6 border-main-nav/20 md:flex-row md:items-center flex-col">
@@ -117,12 +119,8 @@ export default function Home() {
           </div>
 
           <div id="gallery" className="grid gap-x-10 gap-y-10 grid-cols-2"> 
-            {initialImages.filter((item) => {
-              const term = searchTerm.toLowerCase();
-
-              return (item.title.toLowerCase().includes(term) 
-                      || item.subtitle.toLowerCase().includes(term))
-            }).map((item) => <GalleryImageCard key={item.title} {...item} />)}
+            {filterImages(initialImages, budgetFilter, searchTerm).
+                        map((item) => <GalleryImageCard key={item.title} {...item} />)}
           </div>
         </div>
       </section>

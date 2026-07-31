@@ -10,8 +10,8 @@
   --color-main-nav: #3a4f35;
   --color-hover-active: #1f321d;
   --color-debug: #0000ff;
-  --text-page-title: 1.75rem; 
-  --text-page-title--line-height: 2;
+  --text-page-title: 1.55rem; 
+  --text-page-title--line-height: 1.75;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans:  Georgia, ui-sans-serif, system-ui, sans-serif;
@@ -142,4 +142,20 @@ body {
   transform-origin: bottom;
   animation: loading-bar-pulse 0.9s ease-in-out infinite;
   flex-shrink: 0;
+}
+
+@keyframes region-description-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.region-description-fade {
+  animation: region-description-fade 420ms ease-out;
 }
