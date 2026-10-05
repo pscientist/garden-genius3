@@ -19,10 +19,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <SiteRegionContext.Provider value={siteRegion}>
       <main className="min-h-screen overflow-hidden bg-[#eef4df] text-[#21351f]">
-        <section className="relative isolate min-h-screen px-6 py-10 sm:px-10 lg:px-16">
+        <section className="relative isolate min-h-screen px-6 py-3 gap-2 sm:px-10 lg:px-16">
           <SiteBackground siteRegion={siteRegion} />
 
-          <div className="mx-auto flex max-w-7xl flex-col gap-6">
+          <div className="mx-auto flex max-w-7xl flex-col">
             <div className="flex h-10 items-start justify-end">
               <RegionSelect
                 siteRegion={siteRegion}
@@ -30,7 +30,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               />
             </div>
 
-            <div className="flex w-full flex-col gap-4 border-b border-main-nav/20 pb-6 md:flex-row md:items-center">
+            <div className="flex w-full flex-col gap-4 border-b border-main-nav/20 pb-3 mb-6 md:flex-row md:items-center">
               <div className="flex w-full flex-1 justify-start">
                 <LogoTitle />
               </div>

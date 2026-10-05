@@ -47,11 +47,8 @@ export function ResultPanel({
 }: ResultPanelProps) {
   return (
     <div className="rounded-[2rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-2xl shadow-[#4d5a35]/20 backdrop-blur md:p-5">
-      <div className="flex min-h-[28rem] flex-col rounded-[1.5rem] border border-[#c9b38d] bg-gradient-to-br from-[#fffaf0] via-[#edf3df] to-[#ead7bb] p-5">
+      {/* <div className="flex min-h-[28rem] flex-col rounded-[1.5rem] border border-[#c9b38d] bg-gradient-to-br from-[#fffaf0] via-[#edf3df] to-[#ead7bb] p-5"> */}
         <div className="mb-4">
-          <p className="font-fraunces text-sm font-semibold tracking-[0.18em] text-[#7b5a36] uppercase">
-            After
-          </p>
           {result ? (
             <h2 className="mt-2 text-2xl font-semibold text-[#253d21]">
               Suggested Design for You
@@ -85,7 +82,7 @@ export function ResultPanel({
             </div>
           ) : (
             <div className="flex min-h-[20rem] w-full items-center justify-center rounded-[1.25rem] bg-[#fbf5e8]/10 px-8 text-center text-sm leading-6 text-[#fbf5e8]/75">
-              Generate your design to see the after image here.
+              See your garden transformation here
             </div>
           )}
         </div>
@@ -101,7 +98,7 @@ export function ResultPanel({
             />
           </div>
         )}
-      </div>
+      {/* </div> */}
     </div>
   );
 }
