@@ -1,10 +1,10 @@
-export type GalleryItem = {
-    title: string;
-    subtitle: string;
+export type GalleryImageCardType = {
+    id: number;
+    title: string,
+    subtitle: string,
     beforeSrc: string;
     afterSrc: string;
     cost: string;
-    skill: string,
-    maint: string,
+    skill: string; // low , medium, advanced
+    maint: string; // low, medium, guru
 }
-

@@ -1,15 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { LogoTitle } from "@/components/LogoTitle";
 import { ImageUploadPanel } from "@/components/ImageUploadPanel";
 import { ResultPanel } from "@/components/ResultPanel";
-import { SiteBackground } from "@/components/SiteBackground";
-import { TopNavbar } from "@/components/TopNavbar";
-import { UserNav } from "@/components/UserNav";
-import { SearchFilters } from "@/components/SearchFilters";
-import { SubTitle } from "@/components/SubTitle";
-import { GalleryImageCard } from "@/components/GalleryImageCard";
 
 
 const tipImages = [
@@ -108,8 +101,6 @@ export default function Visualizer()
   
         const returnedData = await response.json();
   
-        console.log(returnedData);
-  
         setResult(returnedData.imageUrl);
         setTextTips(returnedData.textTips ?? null);
       } finally {
@@ -123,55 +114,24 @@ export default function Visualizer()
       return () => URL.revokeObjectURL(beforeImgUrl);
     }, [beforeImgUrl]);
   
-    return (<main>
-        <section>
-            
-            <SiteBackground />
+    return (
+        <div className="transformation_wrapper mx-auto grid w-[min(100%-2rem,72rem)] flex-1 items-start gap-5 rounded-2xl border border-[#c9b38d] p-4 sm:w-[min(100%-3rem,72rem)] md:grid-cols-[3fr_7fr] lg:w-[min(100%-4rem,72rem)]">
+            <ImageUploadPanel
+            beforeImgUrl={beforeImgUrl}
+            file={file}
+            loading={loading}
+            onFileChange={setFile}
+            onSubmit={handleSubmit}
+            />
 
-            <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:min-h-[calc(100vh-5rem)]">
-            
-                <div className="flex w-full gap-4 border-b pb-6 border-main-nav/20 md:flex-row md:items-center flex-col">
-                    <div className="flex w-full flex-1 justify-start">
-                    <LogoTitle />
-                    </div>
-                    <div className="shrink-0 self-center md:self-auto">
-                    <TopNavbar />
-                    </div>
-                    <div className="flex w-full flex-1 justify-end">
-                    <UserNav />
-                    </div>
-                </div>
-
-                <div className="flex w-full gap-10 py-4 items-center">
-                    <div className="shrink-0 flex flex-col items-start">
-                    <SubTitle />
-                    </div>
-                    
-                    <div className="flex flex-1 items-start justify-end">
-                    </div>
-                </div>
-
-                <div className="grid flex-1 items-start gap-5 md:grid-cols-[3fr_7fr]">
-                    <ImageUploadPanel
-                    beforeImgUrl={beforeImgUrl}
-                    file={file}
-                    loading={loading}
-                    onFileChange={setFile}
-                    onSubmit={handleSubmit}
-                    />
-
-                    <ResultPanel
-                    result={result}
-                    loading={loading}
-                    currentTipImage={currentTipImage}
-                    tipVisible={tipVisible}
-                    textTips={textTips}
-                    />
-                </div>
-
-            </div>
-
-        </section>
-    </main>)
+            <ResultPanel
+            result={result}
+            loading={loading}
+            currentTipImage={currentTipImage}
+            tipVisible={tipVisible}
+            textTips={textTips}
+            />
+        </div>
+    )
 
 }

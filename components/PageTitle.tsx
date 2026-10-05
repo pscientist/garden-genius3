@@ -17,7 +17,7 @@ export function PageTitle({siteRegion} : PageTitleProps ) {
         {regionLabel ? ` - ${regionLabel} ` : ""}
         <div className="flex gap-2 text-sm">
             { region?.chips?.map((chip) => 
-            <span className="border-1 px-2 rounded-lg">{chip}</span>)}
+            <span key={chip} className="border-1 px-2 rounded-lg">{chip}</span>)}
         </div>
       </div>
     </div>

@@ -1,14 +1,6 @@
 import styles from '@/components/GalleryImageCard.module.css';
 
-export type GalleryImageCardProps = {
-    title: string,
-    subtitle: string,
-    beforeSrc: string;
-    afterSrc: string;
-    cost: string;
-    skill: string; // low , medium, advanced
-    maint: string; // low, medium, guru
-}
+import { GalleryImageCardType } from '@/types/gallery'; 
 
 const showFlexDebugOutlines = false;
 const flexDebugOutline = showFlexDebugOutlines
@@ -32,7 +24,13 @@ function CardLabel({ icon, children }: { icon: React.ReactNode; children: React.
     );
 }
 
-export function GalleryImageCard({ title, subtitle, beforeSrc, afterSrc, cost, skill, maint } : GalleryImageCardProps ) {
+export function GalleryImageCard({ title, 
+            subtitle, 
+            beforeSrc, 
+            afterSrc, 
+            cost, 
+            skill, 
+            maint } : GalleryImageCardType ) {
     return (
         <div className="border-1 rounded-xl border-main-nav/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div className="flex gap-1">

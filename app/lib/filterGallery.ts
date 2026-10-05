@@ -1,19 +1,17 @@
-import { GalleryItem } from "@/types/gallery";
+import { GalleryImageCardType } from "@/types/gallery";
 
-export function filterImages(images: GalleryItem[],  budget: string, searchTerm: string) {
+export function filterGallery(images: GalleryImageCardType[], searchTerm: string,
+                                budgetFilter: string) 
+{
+    return images.filter((item) => {
 
-    return images.filter( (galleryItem) => {
+        const term = searchTerm.toLowerCase().trim();
+        const searchMatch =  !term || item.title.toLowerCase().includes(term) || 
+                              item.subtitle.toLowerCase().includes(term);
 
-        const searchTermLower = searchTerm.toLowerCase().trim();
-
-        const searchMatch = (
-                !searchTermLower || 
-                 galleryItem.title.toLowerCase().includes(searchTermLower) ||
-                 galleryItem.subtitle.toLowerCase().includes(searchTermLower) 
-                );
-
-        const budgetMatch = !budget || galleryItem.cost === budget;        
-
+        const budgetMatch = !budgetFilter || item.cost === budgetFilter;
+                            
         return searchMatch && budgetMatch;
-    });
+
+      });
 }

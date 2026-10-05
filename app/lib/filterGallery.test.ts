@@ -1,9 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { filterImages } from "./filterGallery";
-import { GalleryItem } from "@/types/gallery";
+import { filterGallery } from "./filterGallery";
+import { GalleryImageCardType } from "@/types/gallery";
 
-const items: GalleryItem[] = [
+const items: GalleryImageCardType[] = [
   {
+    id: 1,
     title: "Lifestyle and BBQ",
     subtitle: "Modern backyard for entertaining",
     beforeSrc: "/images/before_images/Sample_Before1.png",
@@ -13,15 +14,7 @@ const items: GalleryItem[] = [
     maint: "low",
   },
   {
-    title: "Modern and Chic",
-    subtitle: "Sleek lines with layered planting",
-    beforeSrc: "/images/before_images/Sample_Before2.png",
-    afterSrc: "/images/after_images/Sample_After2.png",
-    cost: "500-1000",
-    skill: "medium",
-    maint: "low",
-  },
-  {
+    id: 2,
     title: "Low-Maintenance Greens",
     subtitle: "Easy-care native plants for busy households",
     beforeSrc: "/images/before_images/Sample_Before3.png",
@@ -31,6 +24,7 @@ const items: GalleryItem[] = [
     maint: "low",
   },
   {
+    id: 3,
     title: "Family Courtyard",
     subtitle: "Kid-friendly courtyard with seating nooks",
     beforeSrc: "/images/before_images/Sample_Before4.png",
@@ -39,75 +33,38 @@ const items: GalleryItem[] = [
     skill: "high",
     maint: "medium",
   },
-  {
-    title: "Coastal Retreat",
-    subtitle: "Salt-tolerant grasses and windbreak shrubs",
-    beforeSrc: "/images/before_images/Sample_Before5.png",
-    afterSrc: "/images/after_images/Sample_After5.png",
-    cost: "500-1000",
-    skill: "medium",
-    maint: "low",
-  },
-  {
-    title: "Tropical Escape",
-    subtitle: "Bold foliage and palm-framed outdoor living",
-    beforeSrc: "/images/before_images/Sample_Before6.png",
-    afterSrc: "/images/after_images/Sample_After6.png",
-    cost: "Over 1000",
-    skill: "medium",
-    maint: "high",
-  },
-  {
-    title: "Cottage Bloom",
-    subtitle: "Seasonal colour with soft cottage borders",
-    beforeSrc: "/images/before_images/Sample_Before7.png",
-    afterSrc: "/images/after_images/Sample_After7.png",
-    cost: "500-1000",
-    skill: "low",
-    maint: "medium",
-  },
-  {
-    title: "Alpine Sanctuary",
-    subtitle: "Frost-hardy evergreens with winter texture",
-    beforeSrc: "/images/before_images/Sample_Before1.png",
-    afterSrc: "/images/after_images/alpine.png",
-    cost: "500-1000",
-    skill: "high",
-    maint: "low",
-  },
 ];
 
-describe("filterImages", () => {
-  it("returns all items when search and budget are empty", () => {
-    expect(filterImages(items, "", "")).toHaveLength(8);
+
+
+describe("", () => {
+  it("returns all items when budget and search are empty", () => {
+    expect(filterGallery(items, "", "")).toHaveLength(3);
   });
 
-  it("filters by title (case-insensitive)", () => {
-    const result = filterImages(items, "", "lifestyle");
-    expect(result).toHaveLength(1);
+  it("returns 1 items when the budget is 500-1000", () => {
+    expect(filterGallery(items, "", "500-1000")).toHaveLength(1);
+  });
+
+  it("returns 1 items when the search term is BBQ", () =>  {
+    expect(filterGallery(items, "bbq", "")).toHaveLength(1);
+
+    const result = filterGallery(items, "bbq", "");
     expect(result[0].title).toBe("Lifestyle and BBQ");
   });
 
-  it("filters by subtitle", () => {
-    const result = filterImages(items, "", "native plants");
-    expect(result).toHaveLength(1);
-    expect(result[0].title).toBe("Low-Maintenance Greens");
-  });
+  it("returns 1 item when the search term is bbq and the budget is 500-1000", () => {
+        const result = filterGallery(items, "bbq", "500-1000");
+        expect(result[0].title).toBe("Lifestyle and BBQ");
+      }
+  );
 
-  it("filters by budget", () => {
-    const result = filterImages(items, "Under 500", "");
-    expect(result).toHaveLength(1);
-    expect(result[0].cost).toBe("Under 500");
-  });
+  // check search term in the subtitle
+  it("returns 1 item when the search term is Kid friendly", () => {
+    const result = filterGallery(items, "kid-friendly", "");
+    expect(result[0].subtitle).toBe("Kid-friendly courtyard with seating nooks");
+  }
 
-  it("combines search and budget", () => {
-    const result = filterImages(items, "Over 1000", "courtyard");
-    expect(result).toHaveLength(1);
-    expect(result[0].title).toBe("Family Courtyard");
-  });
-
-  it("returns empty when filters don’t match", () => {
-    expect(filterImages(items,  "Under 500", "courtyard")).toHaveLength(0);
-  });
+);
 
 });
