@@ -1,7 +1,8 @@
 import OpenAI, { toFile } from "openai";
-import fs from "fs";
 import dotenv from "dotenv";
-import path from "node:path";
+import prompts from "./prompts.json";
+
+export const maxDuration = 60;
 
 dotenv.config();
 
@@ -9,19 +10,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// const inputFile = path.join(process.cwd(), "public", "images", "messy_garden2.png");
-const outputFile = path.join(process.cwd(), "public", "images", "after.png");
-const promptFile = path.join(process.cwd(), "app", "api", "generate", "gen-image-level1.md");
-const textPromptFile = path.join(process.cwd(), "app", "api", "generate", "gen-image-level1.md");
-
-const img_gen_prompt = fs.readFileSync(promptFile, "utf8").trim();
-
-// format instructions for text only response
-const txt_gen_prompt =
-  fs.readFileSync(textPromptFile, "utf8").trim() +
-  `Please give only short descriptions, no jargons, for a general idea. Please devide them into sections "Steps for Layout and Foundations" (less or equal to than 5 bullet points), "Plants" (one sentence), "Overall Budget" (one setence).
-
-Please return pagragraphs in HTML. `;
+const img_gen_prompt = prompts.imagePrompt;
+const txt_gen_prompt = prompts.textPrompt;
 
 async function generateSuggestions({ beforeImageBase64, mimeType, prompt }) {
     const imageUrl = `data:${mimeType};base64,${beforeImageBase64}`;
@@ -48,7 +38,7 @@ async function generateSuggestions({ beforeImageBase64, mimeType, prompt }) {
     return response.output_text;
 }
 
-async function editGardenImage({beforeImageBuffer, after_img, prompt, mimeType}) {
+async function editGardenImage({beforeImageBuffer, prompt, mimeType}) {
     const startTime = performance.now();
 
     const result = await openai.images.edit({
@@ -64,9 +54,7 @@ async function editGardenImage({beforeImageBuffer, after_img, prompt, mimeType})
     const elapsedSeconds = (performance.now() - startTime) / 1000;
     console.log(`OpenAI API took ${elapsedSeconds.toFixed(2)} seconds`);
 
-    const imageBase64 = result.data[0].b64_json;
-    fs.writeFileSync(after_img, Buffer.from(imageBase64, "base64"));
-    console.log("Saved edited image to ", after_img);
+    return result.data[0].b64_json;
 }
 
 
@@ -82,6 +70,7 @@ export async function POST(request) {
     const beforeImageBuffer = Buffer.from(await image.arrayBuffer());
     const mimeType = image.type || "image/png";
 
+    let imageBase64;
     let textTips;
 
     console.log(`[${new Date().toISOString()}] Image received. Generating garden design...`);
@@ -91,10 +80,9 @@ export async function POST(request) {
         // generrate text suggestions
         const beforeImageBase64 = beforeImageBuffer.toString("base64");
 
-        [, textTips] = await Promise.all([
+        [imageBase64, textTips] = await Promise.all([
             editGardenImage({
                 beforeImageBuffer,
-                after_img: outputFile,
                 prompt: img_gen_prompt,
                 mimeType,
             }),  
@@ -113,7 +101,8 @@ export async function POST(request) {
     }
 
     return Response.json({
-        imageUrl: `/images/after.png?v=${Date.now()}`,
+        // imageUrl: `/images/after.png?v=${Date.now()}`,
+        imageUrl: `data:image/png;base64,${imageBase64}`,
         textTips : textTips
     });
 
