@@ -2,6 +2,7 @@ export type ImageUploadPanelProps = {
   beforeImgUrl: string | null;
   file: File | null;
   loading: boolean;
+  error: string | null;
   onFileChange: (file: File | null) => void;
   onSubmit: () => void;
 };
@@ -10,6 +11,7 @@ export function ImageUploadPanel({
   beforeImgUrl,
   file,
   loading,
+  error,
   onFileChange,
   onSubmit,
 }: ImageUploadPanelProps) {
@@ -20,7 +22,7 @@ export function ImageUploadPanel({
 
         <label className="group flex min-h-20 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#8ea56e] bg-white/55 px-5 py-4 text-center transition hover:border-[#8a5d35] hover:bg-white/75">
 
-         <div className="flex flex-1 items-center justify-center overflow-hidden rounded-3xl border border-[#c9b38d] bg-[#2f281e] p-2 shadow-inner">
+         <div className="relative flex flex-1 items-center justify-center overflow-hidden rounded-3xl border border-[#c9b38d] bg-[#2f281e] p-2 shadow-inner">
             {beforeImgUrl ? (
               <img
                 alt="Before garden photo"
@@ -30,6 +32,17 @@ export function ImageUploadPanel({
             ) : (
               <div className="flex min-h-[20rem] w-full items-center justify-center rounded-[1.25rem] bg-[#fbf5e8]/10 px-8 text-center text-sm leading-6 text-[#fbf5e8]/75">
                 Please upload your garden photo
+              </div>
+            )}
+
+            {error && (
+              <div className="absolute inset-0 flex items-center justify-center bg-[#2f281e]/55 p-6">
+                <p
+                  role="alert"
+                  className="rounded-2xl bg-[#e07b24] px-5 py-4 text-center text-base font-semibold leading-6 text-white shadow-xl"
+                >
+                  {error}
+                </p>
               </div>
             )}
           </div>
