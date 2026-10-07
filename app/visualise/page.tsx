@@ -39,6 +39,7 @@ export default function Visualizer()
     const [loading, setLoading] = useState(false);
     const [tipVisible, setTipVisible] = useState(false);
     const [textTips, setTextTips] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
   
     const beforeImgUrl = useMemo(
       () => (file ? URL.createObjectURL(file) : null),
@@ -76,6 +77,7 @@ export default function Visualizer()
     async function handleSubmit() {
       setResult(null);
       setTextTips(null);
+      setError(null);
   
       if (!file) return;
   
@@ -96,6 +98,11 @@ export default function Visualizer()
         if (!response.ok) {
           const errorText = await response.text();
           console.error("Failure API call : ", response.status, errorText);
+          setError(
+            response.status === 422 || response.status === 504
+              ? errorText
+              : "Something went wrong. Please try again.",
+          );
           return;
         }
   
@@ -120,7 +127,11 @@ export default function Visualizer()
             beforeImgUrl={beforeImgUrl}
             file={file}
             loading={loading}
-            onFileChange={setFile}
+            error={error}
+            onFileChange={(newFile) => {
+              setFile(newFile);
+              setError(null);
+            }}
             onSubmit={handleSubmit}
             />
 
