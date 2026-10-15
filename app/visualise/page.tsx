@@ -122,7 +122,7 @@ export default function Visualizer()
     }, [beforeImgUrl]);
   
     return (
-        <div className="transformation_wrapper mx-auto grid w-[min(100%-2rem,72rem)] flex-1 items-start gap-5 rounded-2xl sm:w-[min(100%-3rem,72rem)] md:grid-cols-[3fr_7fr] lg:w-[min(100%-4rem,72rem)]">
+        <div className="transformation_wrapper mx-auto grid w-[min(100%-2rem,72rem)] flex-1 items-start gap-6 sm:w-[min(100%-3rem,72rem)] md:grid-cols-2 lg:w-[min(100%-4rem,72rem)]">
             <ImageUploadPanel
             beforeImgUrl={beforeImgUrl}
             file={file}

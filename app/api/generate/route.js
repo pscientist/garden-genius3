@@ -73,7 +73,7 @@ async function checkIsGarden({ beforeImageBase64, mimeType }) {
     return JSON.parse(response.output_text);
 }
 
-async function generateSuggestions({ beforeImageBase64, mimeType, prompt }) {
+async function generateSuggestions({ beforeImageBase64, mimeType, prompt, signal }) {
     const imageUrl = `data:${mimeType};base64,${beforeImageBase64}`;
 
     const response = await openai.responses.create({
@@ -93,14 +93,15 @@ async function generateSuggestions({ beforeImageBase64, mimeType, prompt }) {
                 ],
             },
         ],
-    }, { timeout: GENERATION_TIMEOUT_MS });
+    }, { timeout: GENERATION_TIMEOUT_MS, signal });
 
     return response.output_text;
 }
 
-async function editGardenImage({beforeImageBuffer, prompt, mimeType}) {
+async function editGardenImage({beforeImageBuffer, prompt, mimeType, signal}) {
     const startTime = performance.now();
 
+    // OpenAI Image Edit will take the longest time and consume tokens
     const result = await openai.images.edit({
         model: "gpt-image-1.5",
     
@@ -111,7 +112,7 @@ async function editGardenImage({beforeImageBuffer, prompt, mimeType}) {
         prompt,
         quality: "medium",
         output_format: "jpeg",
-    }, { timeout: GENERATION_TIMEOUT_MS });
+    }, { timeout: GENERATION_TIMEOUT_MS, signal });
     
     const elapsedSeconds = (performance.now() - startTime) / 1000;
     console.log(`OpenAI API took ${elapsedSeconds.toFixed(2)} seconds`);
@@ -142,7 +143,9 @@ export async function POST(request) {
 
     const beforeImageBase64 = beforeImageBuffer.toString("base64");
 
+    // We do a image check to see if it's a garden image
     try {
+        // call ResponseAPI by OpenAI
         const { isGarden, reason } = await checkIsGarden({ beforeImageBase64, mimeType });
         console.log(`Garden check: ${isGarden} (${reason})`);
 
@@ -166,21 +169,31 @@ export async function POST(request) {
 
     console.log(`[${new Date().toISOString()}] Image received. Generating garden design...`);
 
+    const generationController = new AbortController();
+
     try {
+        // Once we validate the image is really a garden, 
+        // then we will call the 2 APIs
+        // - for image transformation (generate the image)
+        // - call ResponseAPI to generate text description of suggestions (mulch, trees to plant)
+        // We cancel the other one if one is failed to avoid consuming time and token
         [imageBase64, textTips] = await Promise.all([
             editGardenImage({
                 beforeImageBuffer,
                 prompt: img_gen_prompt,
                 mimeType,
+                signal: generationController.signal,
             }),  
             generateSuggestions({ 
                 beforeImageBase64,
                 mimeType,
-                prompt: txt_gen_prompt,
+                prompt: txt_gen_prompt,// with HTML formatting
+                signal: generationController.signal,
             })
         ]);
 
     } catch (error) {
+        generationController.abort();
         console.error(error);
         if (error instanceof OpenAI.APIConnectionTimeoutError) {
             return new Response(TIMEOUT_MESSAGE, { status: 504 });

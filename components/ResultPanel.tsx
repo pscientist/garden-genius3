@@ -46,46 +46,79 @@ export function ResultPanel({
   textTips,
 }: ResultPanelProps) {
   return (
-    <div className="rounded-[2rem] border border-[#d8c7a9]/70 bg-[#fffaf0]/80 p-4 shadow-2xl shadow-[#4d5a35]/20 backdrop-blur md:p-5">
-      {/* <div className="flex min-h-[28rem] flex-col rounded-[1.5rem] border border-[#c9b38d] bg-gradient-to-br from-[#fffaf0] via-[#edf3df] to-[#ead7bb] p-5"> */}
-        <div className="mb-4">
-          {result ? (
-            <h2 className="mt-2 text-2xl font-semibold text-[#253d21]">
-              Suggested Design for You
-            </h2>
-          ) : loading ? (
-            <div className="mt-2 flex flex-col gap-4">
-              <h2 className="text-2xl font-semibold text-[#253d21]">
-                Got it! While you&apos;re waiting, here are some tips...
-              </h2>
-              <LoadingBars />
-            </div>
-          ) : null}
-        </div>
-
-        <div className="flex flex-1 items-center justify-center overflow-hidden rounded-3xl border border-[#c9b38d] bg-[#2f281e] p-2 shadow-inner">
+    <div>
+        <div className="relative">
           {result ? (
             <img
               alt="Generated garden design concept"
-              className="h-full min-h-[20rem] w-full rounded-[1.25rem] object-cover"
+              className="aspect-[4/3] w-full rounded-2xl object-cover shadow-xl shadow-[#4d5a35]/30"
               src={result}
             />
           ) : loading ? (
-            <div className="flex h-full min-h-[20rem] w-full items-center justify-center">
+            <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#2f281e] shadow-xl shadow-[#4d5a35]/30">
               <img
                 src={currentTipImage}
                 alt="Current tip"
-                className={`h-full w-full rounded-[1.25rem] object-contain transition-opacity duration-500 ${
+                className={`h-full w-full object-contain transition-opacity duration-500 ${
                   tipVisible ? "opacity-100" : "opacity-0"
                 }`}
               />
             </div>
           ) : (
-            <div className="flex min-h-[20rem] w-full items-center justify-center rounded-[1.25rem] bg-[#fbf5e8]/10 px-8 text-center text-sm leading-6 text-[#fbf5e8]/75">
-              See your garden transformation here
+            <div className="@container relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#2f281e] shadow-xl shadow-[#4d5a35]/30">
+              {/* Example "after" photo, blurred like a dream waiting to come into focus */}
+              <img
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full scale-110 object-cover blur-[3px] brightness-95"
+                src="/images/after_images/Sample_After1.png"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1f321d]/80 via-[#1f321d]/35 to-[#fbf5e8]/10" />
+
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 px-5 pt-6 text-center text-[#fbf5e8] @md:gap-3 @md:px-8 @md:pt-0">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fbf5e8]/15 ring-1 ring-[#fbf5e8]/50 backdrop-blur-sm @md:h-14 @md:w-14">
+                  <svg
+                    aria-hidden="true"
+                    className="h-5 w-5 @md:h-7 @md:w-7"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.6"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3Z" />
+                    <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z" />
+                  </svg>
+                </span>
+                <p className="font-fraunces text-xl font-semibold leading-tight @md:text-3xl">
+                  Your dream garden awaits
+                </p>
+                <p className="max-w-xs text-xs leading-5 text-[#fbf5e8]/85 @md:text-sm @md:leading-6">
+                  Upload a photo, press Generate, and watch your space bloom
+                  into something beautiful.
+                </p>
+              </div>
+
+              <span className="absolute bottom-3 right-4 hidden text-xs @md:block font-medium tracking-wide text-[#fbf5e8]/70">
+                Example result
+              </span>
             </div>
           )}
+
+          <span className="absolute left-3 top-3 rounded-full bg-[#2f4f29] px-3 py-1 text-xs font-semibold text-[#fbf5e8] shadow-md">
+            After
+          </span>
         </div>
+
+        {loading ? (
+          <div className="mt-5 flex flex-col gap-4">
+            <h2 className="text-2xl font-semibold text-[#253d21]">
+              Got it! While you&apos;re waiting, here are some tips...
+            </h2>
+            <LoadingBars />
+          </div>
+        ) : null}
 
         {textTips && (
           <div className="mt-4 rounded-2xl border border-[#c9b38d] bg-[#fffaf0]/90 p-5">
@@ -98,7 +131,6 @@ export function ResultPanel({
             />
           </div>
         )}
-      {/* </div> */}
     </div>
   );
 }
