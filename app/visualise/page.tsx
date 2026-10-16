@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ImageUploadPanel } from "@/components/ImageUploadPanel";
 import { ResultPanel } from "@/components/ResultPanel";
+import { pollJob, PollTimeoutError } from "@/lib/pollJob";
 
 
 const tipImages = [
@@ -89,12 +90,15 @@ export default function Visualizer()
       const formData = new FormData();
       formData.append("image", file);
   
+      const pollController = new AbortController();
+
       try {
-        const response = await fetch("/api/generate", {
+        // 1. Start the background jobs. This returns quickly with job ids.
+        const response = await fetch("/api/visualise", {
           method: "POST",
           body: formData,
         });
-  
+
         if (!response.ok) {
           const errorText = await response.text();
           console.error("Failure API call : ", response.status, errorText);
@@ -105,11 +109,26 @@ export default function Visualizer()
           );
           return;
         }
-  
-        const returnedData = await response.json();
-  
-        setResult(returnedData.imageUrl);
-        setTextTips(returnedData.textTips ?? null);
+
+        const { imageJobId, textJobId } = await response.json();
+
+        // 2. Poll both jobs. Each one is shown as soon as it arrives.
+        // The tips are a bonus, so a failed tips job doesn't throw away the image.
+        await Promise.all([ // concurrent processing 
+          pollJob(imageJobId, { signal: pollController.signal }).then(setResult),
+          pollJob(textJobId, { signal: pollController.signal })
+            .then(setTextTips)
+            .catch((tipsError) => console.error("Tips job failed", tipsError)),
+        ]);
+      } catch (pollError) {
+        // If the image job fails or times out, stop (and cancel) the tips job too.
+        pollController.abort();
+        console.error("Polling failed", pollError);
+        setError(
+          pollError instanceof PollTimeoutError
+            ? pollError.message
+            : "Something went wrong. Please try again.",
+        );
       } finally {
         setLoading(false);
       }
