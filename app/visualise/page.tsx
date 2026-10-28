@@ -99,6 +99,7 @@ export default function Visualizer()
           body: formData,
         });
 
+        // if not ok, then we check the error message
         if (!response.ok) {
           const errorText = await response.text();
           console.error("Failure API call : ", response.status, errorText);
@@ -110,10 +111,12 @@ export default function Visualizer()
           return;
         }
 
+        // started OPenAI job IDs
         const { imageJobId, textJobId } = await response.json();
 
         // 2. Poll both jobs. Each one is shown as soon as it arrives.
         // The tips are a bonus, so a failed tips job doesn't throw away the image.
+        // run in parallel to check every 2 secs our started jobs
         await Promise.all([ // concurrent processing 
           pollJob(imageJobId, { signal: pollController.signal }).then(setResult),
           pollJob(textJobId, { signal: pollController.signal })
@@ -122,7 +125,7 @@ export default function Visualizer()
         ]);
       } catch (pollError) {
         // If the image job fails or times out, stop (and cancel) the tips job too.
-        pollController.abort();
+        pollController.abort();// abort (AbortController)
         console.error("Polling failed", pollError);
         setError(
           pollError instanceof PollTimeoutError

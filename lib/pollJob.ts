@@ -41,7 +41,7 @@ export async function pollJob(
 
   // 1. Browser polls every `intervalMs`
   while (Date.now() < deadline) {
-    await sleep(intervalMs);
+    await sleep(intervalMs);// sleep for a few secondds
 
     if (signal?.aborted) {
       await cancelJob(jobId);
@@ -57,10 +57,11 @@ export async function pollJob(
       return result.output;
     }
 
+    // error if not still in progress or queued
     if (!["queued", "in_progress"].includes(result.status)) {
       throw new Error(result.error ?? `Job ended: ${result.status}`);
     }
-  }
+  }// after while loop
 
   // 2. Browser requests cancellation
   await cancelJob(jobId);
