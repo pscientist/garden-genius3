@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 export type ImageUploadPanelProps = {
   beforeImgUrl: string | null;
   file: File | null;
@@ -26,12 +28,16 @@ export function ImageUploadPanel({
   onFileChange,
   onSubmit,
 }: ImageUploadPanelProps) {
+  // The label must point at the file input explicitly. Without htmlFor, a label activates its
+  // first labelable descendant, which is the Generate button (it comes before the input).
+  const inputId = useId();
+
   return (
     <div className="flex flex-col gap-4">
       {/* Upload and generate controls */}
       <div>
 
-        <label className="group flex cursor-pointer flex-col items-center justify-center text-center">
+        <label htmlFor={inputId} className="group flex cursor-pointer flex-col items-center justify-center text-center">
 
          <div className="relative aspect-[4/3] w-full">
             {beforeImgUrl ? (
@@ -114,11 +120,7 @@ export function ImageUploadPanel({
                 <button
                   type="button"
                   disabled={loading}
-                  onClick={(e) => {
-                    // The button sits inside the <label>; don't let the click open the file picker.
-                    e.preventDefault();
-                    onSubmit();
-                  }}
+                  onClick={onSubmit}
                   className={`${primaryPillClasses} ${torchHoverOnSelf} px-6 py-2.5 text-base hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:brightness-100`}
                 >
                   {loading ? "Composing your garden..." : "Generate Garden"}
@@ -128,6 +130,7 @@ export function ImageUploadPanel({
           </div>
           
           <input
+            id={inputId}
             className="sr-only"
             type="file"
             accept="image/*"
