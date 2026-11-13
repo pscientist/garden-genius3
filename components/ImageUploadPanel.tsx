@@ -9,7 +9,11 @@ export type ImageUploadPanelProps = {
   onSubmit: () => void;
 };
 
-// Shared look for the primary action pills: green-to-charcoal 3D gradient with a soft spotlight.
+// Flat 2D charcoal pill for the empty-state upload prompt.
+const uploadPillClasses =
+  "rounded-full bg-[#2c2c2c] font-semibold text-white transition relative overflow-hidden before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:w-1/2 before:-translate-x-full before:skew-x-[-20deg] before:bg-gradient-to-r before:from-transparent before:via-white/40 before:to-transparent before:transition-transform before:duration-0";
+
+// Generate keeps the green-to-charcoal 3D gradient with a soft spotlight.
 const primaryPillClasses =
   "rounded-full border border-white/70 bg-[radial-gradient(circle_at_15%_10%,rgba(170,235,180,0.3),transparent_55%),linear-gradient(to_bottom_right,#3f9e5f,#1f6b45_45%,#1c2b24)] font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.8),inset_0_-3px_6px_rgba(0,0,0,0.35),0_6px_14px_rgba(0,0,0,0.45)] [text-shadow:0_1px_3px_rgba(0,0,0,0.85)] transition relative overflow-hidden before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:w-1/2 before:-translate-x-full before:skew-x-[-20deg] before:bg-gradient-to-r before:from-transparent before:via-white/45 before:to-transparent before:transition-transform before:duration-0";
 
@@ -82,7 +86,7 @@ export function ImageUploadPanel({
                     Drop in a photo of your outdoor space and we&apos;ll imagine
                     what it could become.
                   </p>
-                  <span className={`${primaryPillClasses} ${torchHoverOnLabel} mt-1 px-4 py-1.5 text-xs group-hover:brightness-110 @md:mt-2 @md:px-6 @md:py-2.5 @md:text-base`}>
+                  <span className={`${uploadPillClasses} ${torchHoverOnLabel} mt-1 px-4 py-1.5 text-xs group-hover:bg-[#3a3a3a] @md:mt-2 @md:px-6 @md:py-2.5 @md:text-base`}>
                     Upload your garden photo
                   </span>
                   <span className="hidden text-xs text-[#fbf5e8]/70 @md:block">
