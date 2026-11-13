@@ -7,6 +7,10 @@ export type ImageUploadPanelProps = {
   onSubmit: () => void;
 };
 
+// Shared look for the primary action pills: green-to-charcoal 3D gradient with a soft spotlight.
+const primaryPillClasses =
+  "rounded-full border border-white/70 bg-[radial-gradient(circle_at_15%_10%,rgba(170,235,180,0.3),transparent_55%),linear-gradient(to_bottom_right,#3f9e5f,#1f6b45_45%,#1c2b24)] font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.8),inset_0_-3px_6px_rgba(0,0,0,0.35),0_6px_14px_rgba(0,0,0,0.45)] [text-shadow:0_1px_3px_rgba(0,0,0,0.85)] transition";
+
 export function ImageUploadPanel({
   beforeImgUrl,
   file,
@@ -63,6 +67,12 @@ export function ImageUploadPanel({
                     Drop in a photo of your outdoor space and we&apos;ll imagine
                     what it could become.
                   </p>
+                  <span className={`${primaryPillClasses} mt-1 px-4 py-1.5 text-xs group-hover:-translate-y-0.5 group-hover:brightness-110 @md:mt-2 @md:px-6 @md:py-2.5 @md:text-base`}>
+                    Upload your garden photo
+                  </span>
+                  <span className="hidden text-xs text-[#fbf5e8]/70 @md:block">
+                    JPG or PNG
+                  </span>
                 </div>
 
                 <span className="absolute bottom-3 right-4 hidden text-xs @md:block font-medium tracking-wide text-[#fbf5e8]/70">
@@ -75,6 +85,12 @@ export function ImageUploadPanel({
               Before
             </span>
 
+            {beforeImgUrl && (
+              <span className="absolute right-3 top-3 rounded-full bg-[#fbf5e8]/90 px-3 py-1 text-xs font-semibold text-[#253d21] shadow-md transition group-hover:bg-white">
+                Change photo
+              </span>
+            )}
+
             {error && (
               <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-[#2f281e]/55 p-6">
                 <p
@@ -85,6 +101,23 @@ export function ImageUploadPanel({
                 </p>
               </div>
             )}
+
+            {beforeImgUrl && (
+              <div className="absolute inset-x-0 bottom-5 z-10 flex justify-center">
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={(e) => {
+                    // The button sits inside the <label>; don't let the click open the file picker.
+                    e.preventDefault();
+                    onSubmit();
+                  }}
+                  className={`${primaryPillClasses} px-6 py-2.5 text-base hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:brightness-100`}
+                >
+                  {loading ? "Composing your garden..." : "Generate Garden"}
+                </button>
+              </div>
+            )}
           </div>
           
           <input
@@ -93,21 +126,10 @@ export function ImageUploadPanel({
             accept="image/*"
             onChange={(e) => onFileChange(e.target.files?.[0] ?? null)}
           />
-          <span className="rounded-full bg-[#2f4f29] mt-3 px-4 py-2 text-sm font-semibold text-[#fbf5e8] shadow-lg shadow-[#2f4f29]/20 transition group-hover:bg-[#45663a]">
-            Choose image
-          </span>
-          <span className="mt-2 text-sm text-[#536246]">
-            {file ? file.name : "PNG, JPG, or HEIC garden photo"}
-          </span>
+          {file && (
+            <span className="mt-2 text-sm text-[#536246]">{file.name}</span>
+          )}
         </label>
-
-        <button
-          className="mt-3 w-full rounded-full bg-[#294823] px-6 py-3 text-base font-semibold text-[#fbf5e8] shadow-xl shadow-[#2f4f29]/25 transition hover:-translate-y-0.5 hover:bg-[#3d6535] disabled:cursor-not-allowed disabled:bg-[#9baa8b] disabled:shadow-none"
-          disabled={!file || loading}
-          onClick={onSubmit}
-        >
-          {loading ? "Composing your garden..." : "Generate Garden"}
-        </button>
       </div>
     
     </div>
