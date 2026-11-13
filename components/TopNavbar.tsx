@@ -76,7 +76,7 @@ export function TopNavbar() {
 
   return (
     <nav aria-label="Main">
-      <ul className="font-inter flex list-none flex-wrap items-center divide-x divide-neutral-300 text-sm font-medium text-brand">
+      <ul className="font-menu flex list-none flex-wrap items-center divide-x divide-neutral-300 text-sm font-medium uppercase tracking-[0.09em] text-brand">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
 
