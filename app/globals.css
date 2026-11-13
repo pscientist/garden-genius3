@@ -17,10 +17,10 @@
   --color-foreground: var(--foreground);
   --font-fraunces: "Fraunces", ui-serif, Georgia, serif;
   --font-menu: Futura, "Futura PT", "Century Gothic", sans-serif;
-  --font-sans: var(--font-fraunces);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-inter: var(--font-fraunces);
-  --font-page-title: var(--font-fraunces);
+  --font-inter: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-page-title: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
