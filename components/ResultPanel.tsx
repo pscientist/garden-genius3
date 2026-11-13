@@ -105,10 +105,6 @@ export function ResultPanel({
               </span>
             </div>
           )}
-
-          <span className="absolute left-3 top-3 rounded-full bg-[#2f4f29] px-3 py-1 text-xs font-semibold text-[#fbf5e8] shadow-md">
-            After
-          </span>
         </div>
 
         {loading ? (

@@ -14,7 +14,7 @@ function NavIcon({ children }: { children: ReactNode }) {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-7 w-7 shrink-0 text-neutral-900 drop-shadow-[0_2px_2px_rgba(31,50,29,0.3)]"
+      className="h-5 w-5 shrink-0 text-neutral-900 drop-shadow-[0_2px_2px_rgba(31,50,29,0.3)]"
     >
       {children}
     </svg>
@@ -76,7 +76,7 @@ export function TopNavbar() {
 
   return (
     <nav aria-label="Main">
-      <ul className="font-inter flex list-none flex-wrap items-center divide-x divide-neutral-300 text-base font-medium text-brand">
+      <ul className="font-inter flex list-none flex-wrap items-center divide-x divide-neutral-300 text-sm font-medium text-brand">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
 

@@ -39,7 +39,9 @@ export function ImageUploadPanel({
 
         <label htmlFor={inputId} className="group flex cursor-pointer flex-col items-center justify-center text-center">
 
-         <div className="relative aspect-[4/3] w-full">
+         {/* min-h-0: as a flex item this box would otherwise grow to its content's natural height
+             instead of keeping the 4:3 ratio, making it taller than the After panel. */}
+         <div className="relative aspect-[4/3] min-h-0 w-full">
             {beforeImgUrl ? (
               <img
                 alt="Before garden photo"
@@ -94,9 +96,11 @@ export function ImageUploadPanel({
               </div>
             )}
 
-            <span className="absolute left-3 top-3 rounded-full bg-[#fbf5e8]/90 px-3 py-1 text-xs font-semibold text-[#253d21] shadow-md">
-              Before
-            </span>
+            {file && (
+              <span className="absolute left-3 top-3 max-w-[50%] truncate rounded-full bg-[#1f321d]/60 px-3 py-1 text-xs font-medium text-[#fbf5e8] shadow-md backdrop-blur-sm">
+                {file.name}
+              </span>
+            )}
 
             {beforeImgUrl && (
               <span className="absolute right-3 top-3 rounded-full bg-[#fbf5e8]/90 px-3 py-1 text-xs font-semibold text-[#253d21] shadow-md transition group-hover:bg-white">
@@ -136,9 +140,6 @@ export function ImageUploadPanel({
             accept="image/*"
             onChange={(e) => onFileChange(e.target.files?.[0] ?? null)}
           />
-          {file && (
-            <span className="mt-2 text-sm text-[#536246]">{file.name}</span>
-          )}
         </label>
       </div>
     

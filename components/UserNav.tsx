@@ -21,10 +21,19 @@ export function UserNav() {
                                 </clipPath>
                             </defs>
                             <circle cx="20" cy="20" r="20" className="fill-neutral-200" />
-                            <g clipPath="url(#avatar_clip)" className="fill-neutral-500">
+                            <g clipPath="url(#avatar_clip)" className="fill-neutral-600">
                                 <circle cx="20" cy="15" r="7" />
                                 <ellipse cx="20" cy="38" rx="14" ry="11" />
                             </g>
+                            {/* Thin outline, drawn last so the silhouette can't paint over it */}
+                            <circle
+                                cx="20"
+                                cy="20"
+                                r="19.25"
+                                fill="none"
+                                strokeWidth="1.5"
+                                className="stroke-neutral-700 transition group-hover:stroke-brand"
+                            />
                         </svg>
                         Log in
                     </button>
