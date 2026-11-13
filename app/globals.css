@@ -9,6 +9,7 @@
 @theme inline {
   --color-main-nav: #3a4f35;
   --color-hover-active: #1f321d;
+  --color-brand: #0b6b4a;
   --color-debug: #0000ff;
   --text-page-title: 1.55rem; 
   --text-page-title--line-height: 1.75;

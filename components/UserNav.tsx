@@ -1,27 +1,33 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 export function UserNav() {
-    const onVisualise = usePathname() === "/visualise";
-
     return (
         <nav id="user_nav" className="flex w-full list-none flex-wrap">
             <ul className="font-inter flex w-full items-center justify-end gap-4 text-sm font-normal text-main-nav">
-                
+
                 <li>
-                    <Link
-                        href="/visualise"
-                        aria-current={onVisualise ? "page" : undefined}
-                        className={
-                            onVisualise
-                                ? "inline-block rounded-xl bg-[#1b3b24] px-5 py-2.5 text-sm font-semibold text-white no-underline shadow-md ring-2 ring-[#1b3b24] ring-offset-2 ring-offset-[#eef4df]"
-                                : "inline-block rounded-xl bg-[#1b3b24] px-5 py-2.5 text-sm font-semibold text-white no-underline shadow-md shadow-[#1b3b24]/20 transition hover:bg-[#224229] hover:shadow-lg hover:shadow-[#1b3b24]/25"
-                        }
+                    {/* Placeholder: there is no authentication yet. */}
+                    <button
+                        type="button"
+                        className="group inline-flex items-center gap-3 text-base font-semibold text-neutral-900 transition hover:opacity-80"
                     >
-                        Visualize My Garden
-                    </Link>
+                        {/* Placeholder avatar: circle with a person silhouette */}
+                        <svg
+                            aria-hidden="true"
+                            viewBox="0 0 40 40"
+                            className="h-10 w-10 shrink-0"
+                        >
+                            <defs>
+                                <clipPath id="avatar_clip">
+                                    <circle cx="20" cy="20" r="20" />
+                                </clipPath>
+                            </defs>
+                            <circle cx="20" cy="20" r="20" className="fill-neutral-200" />
+                            <g clipPath="url(#avatar_clip)" className="fill-neutral-500">
+                                <circle cx="20" cy="15" r="7" />
+                                <ellipse cx="20" cy="38" rx="14" ry="11" />
+                            </g>
+                        </svg>
+                        Log in
+                    </button>
                 </li>
             </ul>
         </nav>

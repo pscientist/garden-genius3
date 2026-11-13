@@ -2,13 +2,13 @@ export function LogoTitle() {
   return (
     <header className="flex items-center gap-2 sm:gap-3">
       
-      <img src="/images/logo.png" alt="GardenViz logo" className="h-12 w-auto sm:h-12 shrink-0"/>
+      <img src="/images/logo.png" alt="GardenViz logo" className="h-[55px] w-auto shrink-0"/>
 
       <div> 
-        <h1 className="font-fraunces text-lg font-semibold leading-tight tracking-tight text-[#1f321d] sm:text-xl">
-          GardenViz
+        <h1 className="font-inter text-[21px] font-bold leading-tight tracking-tight text-brand sm:text-[23px]">
+          Garden<span className="text-[#36454f]">Viz</span>
         </h1>
-        <p className="font-inter mt-0.5 hidden text-sm font-medium tracking-tight text-main-nav sm:block sm:text-sm">
+        <p className="font-inter mt-0.5 hidden text-xs font-semibold tracking-tight text-brand sm:block">
           Garden Design Visualizer for Busy Homeowners
         </p>
 

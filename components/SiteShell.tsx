@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { LogoTitle } from "@/components/LogoTitle";
 import RegionSelect from "@/components/RegionSelect";
@@ -30,11 +31,13 @@ export function SiteShell({ children }: { children: ReactNode }) {
               />
             </div>
 
-            <div className="flex w-full flex-col gap-4 border-b border-main-nav/20 pb-3 mb-6 md:flex-row md:items-center">
+            <div className="flex w-full flex-col gap-4 border-b border-main-nav/20 pb-3 mb-6 xl:flex-row xl:items-center">
               <div className="flex w-full flex-1 justify-start">
-                <LogoTitle />
+                <Link href="/" aria-label="GardenViz home" className="no-underline">
+                  <LogoTitle />
+                </Link>
               </div>
-              <div className="shrink-0 self-center md:self-auto">
+              <div className="shrink-0 self-center xl:self-auto">
                 <TopNavbar />
               </div>
               <div className="flex w-full flex-1 justify-end">

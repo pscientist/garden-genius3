@@ -1,109 +1,170 @@
 "use client";
 
-import { SearchFilters } from "@/components/SearchFilters";
-import { SearchBox } from "@/components/SearchBox";
-import { PageTitle } from "@/components/PageTitle";
-import { GalleryImageCard } from "@/components/GalleryImageCard";
-import { useSiteRegion } from "@/components/SiteShell";
-import { useState } from "react";
-import { GalleryImageCardType } from "@/types/gallery";
-import { filterGallery } from "./lib/filterGallery";
+import { useEffect, useMemo, useState } from "react";
+import { ImageUploadPanel } from "@/components/ImageUploadPanel";
+import { ResultPanel } from "@/components/ResultPanel";
+import { pollJob, PollTimeoutError } from "@/lib/pollJob";
 
-const initialImages: GalleryImageCardType[] = [
-  {
-    id: 1,
-    title: "Lifestyle and BBQ",
-    subtitle: "Modern backyard for entertaining",
-    beforeSrc: "/images/before_images/Sample_Before1.png",
-    afterSrc: "/images/after_images/Sample_After1.png",
-    cost: "500-1000",
-    skill: "low",
-    maint: "low",
-  },
-  {
-    id: 2,
-    title: "Cottage Garden Refresh",
-    subtitle: "Soft borders and winding paths",
-    beforeSrc: "/images/before_images/Sample_Before2.png",
-    afterSrc: "/images/after_images/Sample_After2.png",
-    cost: "500-1000",
-    skill: "medium",
-    maint: "medium",
-  },
-  {
-    id: 3,
-    title: "Low-Maintenance Greens",
-    subtitle: "Native plants with easy care beds",
-    beforeSrc: "/images/before_images/Sample_Before3.png",
-    afterSrc: "/images/after_images/Sample_After3.png",
-    cost: "Under 500",
-    skill: "low",
-    maint: "low",
-  },
-  {
-    id: 4,
-    title: "Family Courtyard",
-    subtitle: "Play space with seating and shade",
-    beforeSrc: "/images/before_images/Sample_Before4.png",
-    afterSrc: "/images/after_images/Sample_After4.png",
-    cost: "Over 1000",
-    skill: "medium",
-    maint: "low",
-  },
-  {
-    id: 5,
-    title: "Urban Jungle Patio",
-    subtitle: "Container planting on a small deck",
-    beforeSrc: "/images/before_images/Sample_Before5.png",
-    afterSrc: "/images/after_images/Sample_After5.png",
-    cost: "Under 500",
-    skill: "advanced",
-    maint: "guru",
-  },
-  {
-    id: 6,
-    title: "Weekend Warrior Yard",
-    subtitle: "Quick wins with gravel and raised beds",
-    beforeSrc: "/images/before_images/Sample_Before6.png",
-    afterSrc: "/images/after_images/Sample_After6.png",
-    cost: "Under 500",
-    skill: "advanced",
-    maint: "medium",
-  },
+
+const tipImages = [
+  "/images/tip_annual.png",
+  "/images/tip_autumn_leaves.png",
+  "/images/tip4_people.png",
+  "/images/tip5_people.png",
+  "/images/tip6_people.png",
+  "/images/tip7_people.png",
+  "/images/tip8_people.png",
+  "/images/tip9_people.png",
+  "/images/tip10_people.png",
+  "/images/tip13_solar.png",
+  "/images/tip14_gravel.png",
+  "/images/tip15_people.jpeg",
 ];
 
-export default function Home() {
+function getRandomTipIndex(excludeIndex?: number) {
+  if (tipImages.length <= 1) return 0;
 
-  const [budgetFilter, setBudgetFilter] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const siteRegion = useSiteRegion();
+  const allowedIndexes = Array.from({ length: tipImages.length }, (_, i) => i)
+    .filter((n) => n !== excludeIndex);
 
-  const showFlexDebugOutlines = false;
-  const flexDebugOutline = showFlexDebugOutlines
-    ? "[&>*]:outline [&>*]:outline-1 [&>*]:outline-debug"
-    : "";
+  const randomPos = Math.floor(Math.random() * allowedIndexes.length);
 
-  return (
-    <>
-          <div className={`flex w-full gap-10 py-4 items-start ${flexDebugOutline}`}>
-            <div className="min-w-0 flex-1 flex flex-col items-start">
-              <PageTitle siteRegion={siteRegion}/>
-            </div>
+  return allowedIndexes[randomPos];
+}
 
-            <div className="flex shrink-0 items-start justify-end">
-              <SearchBox searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-            </div>
 
-            <div className="flex shrink-0 items-start justify-end">
-              <SearchFilters budgetFilter={budgetFilter} onBudgetChange={setBudgetFilter}/>
-            </div>
-          </div>
+export default function Visualizer()
+{
+    const [file, setFile] = useState<File | null>(null);
+    const [result, setResult] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [tipVisible, setTipVisible] = useState(false);
+    const [textTips, setTextTips] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+  
+    const beforeImgUrl = useMemo(
+      () => (file ? URL.createObjectURL(file) : null),
+      [file],
+    );
+  
+    const [tipIndex, setTipIndex] = useState(0);
+  
+    const currentTipImage = tipImages[tipIndex];
+  
+    useEffect(() => {
+      if (!loading) return;
+  
+      setTipVisible(true);
+      let timeoutId: number | undefined;
+  
+      const intervalId = window.setInterval(() => {
+        setTipVisible(false);
+  
+        timeoutId = window.setTimeout(() => {
+          setTipIndex((prevIndex) => getRandomTipIndex(prevIndex));
+          setTipVisible(true);
+        }, 500);
+      }, 7000);
+  
+      return () => {
+        window.clearInterval(intervalId);
+  
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+        }
+      };
+    }, [loading]);
+  
+    async function handleSubmit() {
+      setResult(null);
+      setTextTips(null);
+      setError(null);
+  
+      if (!file) return;
+  
+      setTipIndex(getRandomTipIndex());
+      setTipVisible(false);
+  
+      setLoading(true);
+  
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      const pollController = new AbortController();
 
-          <div id="gallery" className="grid gap-x-10 gap-y-10 grid-cols-2"> 
-            { filterGallery(initialImages, searchTerm, budgetFilter)
-              .map((item) => <GalleryImageCard 
-                  key={item.title} {...item} />)}
-          </div>
-    </>
-  );
+      try {
+        // 1. Start the background jobs. This returns quickly with job ids.
+        const response = await fetch("/api/visualise", {
+          method: "POST",
+          body: formData,
+        });
+
+        // if not ok, then we check the error message
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Failure API call : ", response.status, errorText);
+          setError(
+            response.status === 422 || response.status === 504
+              ? errorText
+              : "Something went wrong. Please try again.",
+          );
+          return;
+        }
+
+        // started OPenAI job IDs
+        const { imageJobId, textJobId } = await response.json();
+
+        // 2. Poll both jobs. Each one is shown as soon as it arrives.
+        // The tips are a bonus, so a failed tips job doesn't throw away the image.
+        // run in parallel to check every 2 secs our started jobs
+        await Promise.all([ // concurrent processing 
+          pollJob(imageJobId, { signal: pollController.signal }).then(setResult),
+          pollJob(textJobId, { signal: pollController.signal })
+            .then(setTextTips)
+            .catch((tipsError) => console.error("Tips job failed", tipsError)),
+        ]);
+      } catch (pollError) {
+        // If the image job fails or times out, stop (and cancel) the tips job too.
+        pollController.abort();// abort (AbortController)
+        console.error("Polling failed", pollError);
+        setError(
+          pollError instanceof PollTimeoutError
+            ? pollError.message
+            : "Something went wrong. Please try again.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+  
+    useEffect(() => {
+      if (!beforeImgUrl) return;
+  
+      return () => URL.revokeObjectURL(beforeImgUrl);
+    }, [beforeImgUrl]);
+  
+    return (
+        <div className="transformation_wrapper mx-auto grid w-[min(100%-2rem,72rem)] flex-1 items-start gap-6 sm:w-[min(100%-3rem,72rem)] md:grid-cols-2 lg:w-[min(100%-4rem,72rem)]">
+            <ImageUploadPanel
+            beforeImgUrl={beforeImgUrl}
+            file={file}
+            loading={loading}
+            error={error}
+            onFileChange={(newFile) => {
+              setFile(newFile);
+              setError(null);
+            }}
+            onSubmit={handleSubmit}
+            />
+
+            <ResultPanel
+            result={result}
+            loading={loading}
+            currentTipImage={currentTipImage}
+            tipVisible={tipVisible}
+            textTips={textTips}
+            />
+        </div>
+    )
+
 }

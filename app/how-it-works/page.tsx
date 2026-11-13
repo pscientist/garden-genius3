@@ -26,7 +26,7 @@ const steps: {
       "Short notes on layout, plants, and budget.",
     ],
     accent: "#1f3d24",
-    href: "/visualise",
+    href: "/",
   },
 ];
 
