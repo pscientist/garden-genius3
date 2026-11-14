@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageUploadPanel } from "@/components/ImageUploadPanel";
 import { ResultPanel } from "@/components/ResultPanel";
@@ -10,13 +10,22 @@ export default function Visualizer()
 {
     const router = useRouter();
     const [file, setFile] = useState<File | null>(null);
+    const [beforeImgUrl, setBeforeImgUrl] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
-  
-    const beforeImgUrl = useMemo(
-      () => (file ? URL.createObjectURL(file) : null),
-      [file],
-    );
+
+    // Create the preview URL in an effect. A URL made during render gets revoked
+    // by Strict Mode's extra cleanup, so the photo never appears in development.
+    useEffect(() => {
+      if (!file) {
+        setBeforeImgUrl(null);
+        return;
+      }
+
+      const url = URL.createObjectURL(file);
+      setBeforeImgUrl(url);
+      return () => URL.revokeObjectURL(url);
+    }, [file]);
   
     async function handleSubmit() {
       setError(null);
@@ -65,12 +74,6 @@ export default function Visualizer()
         setSubmitting(false);
       }
     }
-  
-    useEffect(() => {
-      if (!beforeImgUrl) return;
-  
-      return () => URL.revokeObjectURL(beforeImgUrl);
-    }, [beforeImgUrl]);
   
     return (
         <div className="transformation_wrapper mx-auto grid w-[min(100%-2rem,72rem)] flex-1 items-start gap-6 sm:w-[min(100%-3rem,72rem)] md:grid-cols-2 lg:w-[min(100%-4rem,72rem)]">
