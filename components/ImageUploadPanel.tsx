@@ -82,11 +82,26 @@ export function ImageUploadPanel({
                   <p className="font-fraunces text-xl font-semibold leading-tight @md:text-3xl">
                     Show us your garden
                   </p>
-                  <p className="max-w-xs text-xs leading-5 text-[#fbf5e8]/85 @md:text-sm @md:leading-6">
+                  <p className="max-w-xs text-[16px] leading-6 text-[#fbf5e8]/85">
                     Drop in a photo of your outdoor space and we&apos;ll imagine
                     what it could become.
                   </p>
-                  <span className={`${uploadPillClasses} ${torchHoverOnLabel} mt-1 px-4 py-1.5 text-xs group-hover:bg-[#73844a] @md:mt-2 @md:px-6 @md:py-2.5 @md:text-base`}>
+                  <span className={`${uploadPillClasses} ${torchHoverOnLabel} mt-1 inline-flex items-center gap-1.5 px-4 py-1.5 text-xs group-hover:bg-[#73844a] @md:mt-2 @md:gap-2 @md:px-6 @md:py-2.5 @md:text-base`}>
+                    <svg
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5 shrink-0 @md:h-4 @md:w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <path d="M12 18v-6" />
+                      <path d="m9 15 3-3 3 3" />
+                    </svg>
                     Upload your garden photo
                   </span>
                   <span className="hidden text-xs text-[#fbf5e8]/70 @md:block">
@@ -94,9 +109,7 @@ export function ImageUploadPanel({
                   </span>
                 </div>
 
-                <span className="absolute bottom-3 right-4 hidden text-xs @md:block font-medium tracking-wide text-[#fbf5e8]/70">
-                  Example photo
-                </span>
+               
               </div>
             )}
 

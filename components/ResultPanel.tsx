@@ -94,15 +94,10 @@ export function ResultPanel({
                 <p className="font-fraunces text-xl font-semibold leading-tight @md:text-3xl">
                   Your dream garden awaits
                 </p>
-                <p className="max-w-xs text-xs leading-5 text-[#fbf5e8]/85 @md:text-sm @md:leading-6">
-                  Upload a photo, press Generate, and watch your space bloom
-                  into something beautiful.
-                </p>
+               
               </div>
 
-              <span className="absolute bottom-3 right-4 hidden text-xs @md:block font-medium tracking-wide text-[#fbf5e8]/70">
-                Example result
-              </span>
+             
             </div>
           )}
         </div>

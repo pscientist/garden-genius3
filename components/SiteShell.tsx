@@ -24,13 +24,6 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <SiteBackground siteRegion={siteRegion} />
 
           <div className="mx-auto flex max-w-7xl flex-col">
-            <div className="flex h-10 items-start justify-end">
-              <RegionSelect
-                siteRegion={siteRegion}
-                onRegionSelect={setSiteRegion}
-              />
-            </div>
-
             <div className="flex w-full flex-col gap-4 border-b border-main-nav/20 pb-3 mb-6 xl:flex-row xl:items-center">
               <div className="flex w-full flex-1 justify-start">
                 <Link href="/" aria-label="GardenViz home" className="no-underline">
@@ -40,7 +33,13 @@ export function SiteShell({ children }: { children: ReactNode }) {
               <div className="shrink-0 self-center xl:self-auto">
                 <TopNavbar />
               </div>
-              <div className="flex w-full flex-1 justify-end">
+              <div className="flex w-full flex-1 items-center justify-end gap-4">
+                
+                <RegionSelect
+                  siteRegion={siteRegion}
+                  onRegionSelect={setSiteRegion}
+                />
+
                 <UserNav />
               </div>
             </div>

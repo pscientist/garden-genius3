@@ -35,8 +35,19 @@ const navItems: { href: string; label: string; icon: ReactNode }[] = [
     ),
   },
   {
-    href: "/how-it-works",
-    label: "How It Works",
+    href: "/",
+    label: "Visualise",
+    // camera
+    icon: (
+      <NavIcon>
+        <path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8Z" />
+        <circle cx="12" cy="13" r="3.5" />
+      </NavIcon>
+    ),
+  },
+  {
+    href: "/quick-tips",
+    label: "Quick Tips",
     // clipboard with checkmark
     icon: (
       <NavIcon>
@@ -57,18 +68,7 @@ const navItems: { href: string; label: string; icon: ReactNode }[] = [
       </NavIcon>
     ),
   },
-  {
-    href: "/about",
-    label: "About",
-    // info circle
-    icon: (
-      <NavIcon>
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 16v-4" />
-        <path d="M12 8h.01" />
-      </NavIcon>
-    ),
-  },
+
 ];
 
 export function TopNavbar() {
@@ -76,7 +76,7 @@ export function TopNavbar() {
 
   return (
     <nav aria-label="Main">
-      <ul className="font-menu flex list-none flex-wrap items-center divide-x divide-neutral-300 text-sm font-medium uppercase tracking-[0.09em] text-brand">
+      <ul className="font-menu flex list-none flex-wrap items-center divide-x divide-neutral-300 text-[12px] font-medium uppercase tracking-[0.09em] text-brand">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
 
