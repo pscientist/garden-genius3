@@ -8,7 +8,7 @@ export function UserNav() {
                         type="button"
                         className="group inline-flex items-center gap-3 text-base font-menu transition hover:opacity-80"
                     >
-                        <span className="text-[12px] drop-shadow-[0_2px_2px_rgba(31,50,29,0.3)]">
+                        <span className="text-[12px] uppercase">
                             Log in
                         </span>
                     </button>
@@ -19,7 +19,7 @@ export function UserNav() {
                         type="button"
                         className="group inline-flex items-center gap-3 text-base font-menu transition hover:opacity-80"
                     >
-                        <span className="text-[12px] drop-shadow-[0_2px_2px_rgba(31,50,29,0.3)]">
+                        <span className="text-[12px] uppercase">
                             Register
                         </span>
                     </button>

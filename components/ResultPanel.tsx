@@ -94,6 +94,9 @@ export function ResultPanel({
                 <p className="font-fraunces text-xl font-semibold leading-tight @md:text-3xl">
                   Your dream garden awaits
                 </p>
+                <p className="font-inter max-w-sm text-[16px] leading-6 text-[#fbf5e8]/85">
+                  ... and a task &amp; shopping list you can get started this weekend!
+                </p>
                
               </div>
 

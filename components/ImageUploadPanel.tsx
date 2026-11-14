@@ -9,9 +9,9 @@ export type ImageUploadPanelProps = {
   onSubmit: () => void;
 };
 
-// Flat 2D olive pill for the empty-state upload prompt.
+// Sunlight pill: pale yellow into gold, with a warm glow.
 const uploadPillClasses =
-  "rounded-full bg-[#5f6f38] font-semibold text-white transition relative overflow-hidden before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:w-1/2 before:-translate-x-full before:skew-x-[-20deg] before:bg-gradient-to-r before:from-transparent before:via-white/40 before:to-transparent before:transition-transform before:duration-0";
+  "rounded-md bg-[radial-gradient(circle_at_30%_0%,#fff8d0,transparent_58%),linear-gradient(to_bottom,#fff1b8,#f6d365_48%,#e8b423)] font-semibold text-[#4a3410] shadow-[0_0_18px_rgba(255,196,70,0.55)] transition relative overflow-hidden before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:w-1/2 before:-translate-x-full before:skew-x-[-20deg] before:bg-gradient-to-r before:from-transparent before:via-white/70 before:to-transparent before:transition-transform before:duration-0";
 
 // Generate keeps the green-to-charcoal 3D gradient with a soft spotlight.
 const primaryPillClasses =
@@ -86,7 +86,7 @@ export function ImageUploadPanel({
                     Drop in a photo of your outdoor space and we&apos;ll imagine
                     what it could become.
                   </p>
-                  <span className={`${uploadPillClasses} ${torchHoverOnLabel} mt-1 inline-flex items-center gap-1.5 px-4 py-1.5 text-xs group-hover:bg-[#73844a] @md:mt-2 @md:gap-2 @md:px-6 @md:py-2.5 @md:text-base`}>
+                  <span className={`${uploadPillClasses} ${torchHoverOnLabel} mt-1 inline-flex items-center gap-1.5 px-4 py-1.5 text-xs group-hover:brightness-110 @md:mt-2 @md:gap-2 @md:px-6 @md:py-2.5 @md:text-base`}>
                     <svg
                       aria-hidden="true"
                       className="h-3.5 w-3.5 shrink-0 @md:h-4 @md:w-4"
