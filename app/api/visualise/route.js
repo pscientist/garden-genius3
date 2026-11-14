@@ -6,6 +6,7 @@ import {
     readUploadedImage,
     rejectIfNotGarden,
 } from "../_lib/garden";
+import { createFakeJobs, fakeVisualiseEnabled } from "../_lib/fakeVisualise";
 
 // Client polling: this route only validates the photo and *starts* the OpenAI jobs.
 // It returns job ids straight away; the browser then polls GET /api/visualise/[jobId].
@@ -57,6 +58,10 @@ function startTextJob({ imageUrl }) {
 }
 
 export async function POST(request) {
+    if (fakeVisualiseEnabled()) {
+        return Response.json(createFakeJobs());
+    }
+
     const upload = await readUploadedImage(request);
     if (upload.errorResponse) return upload.errorResponse;
 

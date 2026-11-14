@@ -1,4 +1,5 @@
 import { openai } from "../../_lib/garden";
+import { fakeVisualiseEnabled, readFakeJob } from "../../_lib/fakeVisualise";
 
 // Polled by the browser every couple of seconds. Each call is a quick lookup,
 // so no serverless function ever waits on the slow image generation.
@@ -26,6 +27,11 @@ export async function GET(_request, { params }) {
     // validate the format
     if (!JOB_ID_PATTERN.test(jobId)) {
         return new Response("Invalid job id", { status: 400 });
+    }
+
+    if (fakeVisualiseEnabled()) {
+        const fake = readFakeJob(jobId);
+        if (fake) return Response.json(fake);
     }
 
     try {
