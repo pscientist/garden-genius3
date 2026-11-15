@@ -71,16 +71,19 @@ export function ResultPanel({
                   }`}
                 />
               ) : null}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#1f321d]/75 to-transparent" />
-              <div className="absolute inset-x-0 top-0 flex h-1/3 flex-col items-center justify-center gap-1 px-5 text-center">
-                <h2 className="text-lg font-semibold leading-tight text-[#fbf5e8] drop-shadow-[0_2px_6px_rgba(31,50,29,0.45)] sm:text-xl">
-                  Got it! While you&apos;re waiting, here are some tips...
-                </h2>
-                <div className="flex h-11 items-end justify-center">
-                  <div className="origin-bottom scale-[0.85]">
-                    <LoadingBars />
+              {tipsStarted ? null : (
+                <>
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#1f321d]/75 to-transparent" />
+                  <div className="absolute inset-x-0 top-0 flex h-1/3 items-center justify-center px-5 text-center">
+                    <h2 className="text-lg font-semibold leading-tight text-[#fbf5e8] drop-shadow-[0_2px_6px_rgba(31,50,29,0.45)] sm:text-xl">
+                      Got it! While you&apos;re waiting, here are some tips...
+                    </h2>
                   </div>
-                </div>
+                </>
+              )}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#1f321d]/75 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex h-1/4 items-center justify-center">
+                <LoadingBars />
               </div>
             </div>
           ) : (
