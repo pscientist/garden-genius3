@@ -5,17 +5,21 @@ type RegionSelectProps = {
     onRegionSelect: (value: string) => void;
 }
 
+const optionType = "font-menu text-[10.08px] uppercase";
+
 export default function RegionSelect({siteRegion, onRegionSelect} : RegionSelectProps) {
   return (
-    <div className="font-inter flex items-center gap-2">
-      <div className="py-1 border-1 text-sm rounded-lg px-1 border-main-nav/20">
-        <select value={siteRegion} onChange={(e) => onRegionSelect(e.target.value)}>
-            <option value=''>Region...</option>
+    <div className="flex items-center">
+      <select
+        value={siteRegion}
+        onChange={(e) => onRegionSelect(e.target.value)}
+        className={`bg-[#fbf5e8] px-[8.4px] py-[4.2px] text-brand ${optionType}`}
+      >
+            <option className={optionType} value=''>Region...</option>
             { REGIONS.map((r) => (
-                <option key={r.id} value={r.id}> {r.label} </option>
+                <option className={optionType} key={r.id} value={r.id}> {r.label} </option>
             ))}
-        </select>
-      </div>
+    </select>
     </div>
   );
 }

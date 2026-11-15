@@ -8,7 +8,7 @@ export function LogoTitle() {
         <h1 className="font-inter text-[25px] font-bold leading-tight tracking-tight text-brand sm:text-[23px]">
           Garden<span className="text-[#36454f]">Viz</span>
         </h1>
-        <p className="font-inter mt-0.5 hidden text-[16px] tracking-tight text-hover-active sm:block">
+        <p className="font-menu mt-0.5 hidden text-[16px] tracking-tight text-hover-active sm:block">
           Simple Design for Busy Homeowners
         </p>
 
