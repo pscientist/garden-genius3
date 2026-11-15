@@ -1,4 +1,4 @@
-const FAKE_WAIT_MS = 6000;
+const FAKE_WAIT_MS = 24000;
 
 // In-memory clocks for the current dev server. A fresh Generate gets new ids.
 const jobs = new Map();
