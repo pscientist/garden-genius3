@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ResultPanel } from "@/components/ResultPanel";
+import { ResultPanel } from "@/components/ResultPanel";   
 import { pollJob, PollTimeoutError } from "@/lib/pollJob";
 
 const tipImages = [
@@ -41,6 +41,7 @@ export function TransformedView() {
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(hasJobs);
   const [tipVisible, setTipVisible] = useState(false);
+  const [tipsStarted, setTipsStarted] = useState(false);
   const [textTips, setTextTips] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [tipIndex, setTipIndex] = useState(() => getRandomTipIndex());
@@ -48,25 +49,41 @@ export function TransformedView() {
   const currentTipImage = tipImages[tipIndex];
 
   useEffect(() => {
-    if (!loading) return;
-
-    setTipVisible(true);
-    let timeoutId: number | undefined;
-
-    const intervalId = window.setInterval(() => {
+    if (!loading) {
+      setTipsStarted(false);
       setTipVisible(false);
+      return;
+    }
 
-      timeoutId = window.setTimeout(() => {
-        setTipIndex((prevIndex) => getRandomTipIndex(prevIndex));
-        setTipVisible(true);
-      }, 500);
-    }, 7000);
+    let intervalId: number | undefined;
+    let swapTimeoutId: number | undefined;
+
+    const startId = window.setTimeout(() => {
+      setTipsStarted(true);
+      setTipVisible(true);
+
+      // show a different tip image every 7 seconds
+      intervalId = window.setInterval(() => {
+        setTipVisible(false);
+
+        swapTimeoutId = window.setTimeout(() => {
+          setTipIndex((prevIndex) => getRandomTipIndex(prevIndex));
+          setTipVisible(true);
+        }, 500); // 500ms fade in
+
+      }, 7000);// swap tip image every 7 secs
+
+    }, 3000);// tips starts 3 secs this loads
 
     return () => {
-      window.clearInterval(intervalId);
+      window.clearTimeout(startId);
 
-      if (timeoutId) {
-        window.clearTimeout(timeoutId);
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+
+      if (swapTimeoutId) {
+        window.clearTimeout(swapTimeoutId);
       }
     };
   }, [loading]);
@@ -134,6 +151,7 @@ export function TransformedView() {
         loading={loading}
         currentTipImage={currentTipImage}
         tipVisible={tipVisible}
+        tipsStarted={tipsStarted}
         textTips={textTips}
       />
     </div>

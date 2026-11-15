@@ -35,6 +35,7 @@ export type ResultPanelProps = {
   loading: boolean;
   currentTipImage: string;
   tipVisible: boolean;
+  tipsStarted?: boolean;
   textTips: string | null;
 };
 
@@ -43,6 +44,7 @@ export function ResultPanel({
   loading,
   currentTipImage,
   tipVisible,
+  tipsStarted = false,
   textTips,
 }: ResultPanelProps) {
   return (
@@ -55,14 +57,31 @@ export function ResultPanel({
               src={result}
             />
           ) : loading ? (
-            <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#2f281e] shadow-xl shadow-[#4d5a35]/30">
-              <img
-                src={currentTipImage}
-                alt="Current tip"
-                className={`h-full w-full object-contain transition-opacity duration-500 ${
-                  tipVisible ? "opacity-100" : "opacity-0"
-                }`}
-              />
+            <div
+              className={`relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-xl shadow-[#4d5a35]/30 ${
+                tipsStarted ? "bg-[#2f281e]" : "bg-[#d4d4d4]"
+              }`}
+            >
+              {tipsStarted ? (
+                <img
+                  src={currentTipImage}
+                  alt="Current tip"
+                  className={`h-full w-full object-contain transition-opacity duration-500 ${
+                    tipVisible ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ) : null}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#1f321d]/75 to-transparent" />
+              <div className="absolute inset-x-0 top-0 flex h-1/3 flex-col items-center justify-center gap-1 px-5 text-center">
+                <h2 className="text-lg font-semibold leading-tight text-[#fbf5e8] drop-shadow-[0_2px_6px_rgba(31,50,29,0.45)] sm:text-xl">
+                  Got it! While you&apos;re waiting, here are some tips...
+                </h2>
+                <div className="flex h-11 items-end justify-center">
+                  <div className="origin-bottom scale-[0.85]">
+                    <LoadingBars />
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="@container relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#2f281e] shadow-xl shadow-[#4d5a35]/30">
@@ -104,15 +123,6 @@ export function ResultPanel({
             </div>
           )}
         </div>
-
-        {loading ? (
-          <div className="mt-5 flex flex-col gap-4">
-            <h2 className="text-2xl font-semibold text-[#253d21]">
-              Got it! While you&apos;re waiting, here are some tips...
-            </h2>
-            <LoadingBars />
-          </div>
-        ) : null}
 
         {textTips && (
           <div className="mt-4 rounded-2xl border border-[#c9b38d] bg-[#fffaf0]/90 p-5">
