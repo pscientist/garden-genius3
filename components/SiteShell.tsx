@@ -6,6 +6,7 @@ import { LogoTitle } from "@/components/LogoTitle";
 import RegionSelect from "@/components/RegionSelect";
 import { SiteBackground } from "@/components/SiteBackground";
 import { TopNavbar } from "@/components/TopNavbar";
+import { SiteFooter } from "@/components/SiteFooter";
 import { UserNav } from "@/components/UserNav";
 
 const SiteRegionContext = createContext("");
@@ -20,10 +21,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <SiteRegionContext.Provider value={siteRegion}>
       <main className="min-h-screen overflow-hidden bg-[#eef4df] text-[#21351f]">
-        <section className="relative isolate min-h-screen px-6 py-3 gap-2 sm:px-10 lg:px-16">
+        <section className="relative isolate flex min-h-screen flex-col px-6 pt-[2rem] pb-3 gap-2 sm:px-10 lg:px-16">
           <SiteBackground siteRegion={siteRegion} />
 
-          <div className="mx-auto flex max-w-7xl flex-col">
+          <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col">
             <div className="flex w-full flex-col gap-4 border-b border-main-nav/20 pb-3 mb-6 xl:flex-row xl:items-center">
               <div className="flex w-full flex-1 justify-start">
                 <Link href="/" aria-label="GardenViz home" className="no-underline">
@@ -45,6 +46,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
             </div>
 
             {children}
+            <SiteFooter />
           </div>
         </section>
       </main>
