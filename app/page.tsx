@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageUploadPanel } from "@/components/ImageUploadPanel";
 import { ResultPanel } from "@/components/ResultPanel";
+import { rememberBeforeImage } from "@/lib/beforeImage";
 
 
 export default function Visualizer()
@@ -36,6 +37,7 @@ export default function Visualizer()
   
       const formData = new FormData();
       formData.append("image", file);
+      const remembered = rememberBeforeImage(file);
 
       try {
         // Start the background jobs. This returns quickly with job ids.
@@ -64,6 +66,8 @@ export default function Visualizer()
           setSubmitting(false);
           return;
         }
+
+        await remembered;
 
         router.push(
           `/transformed?image=${encodeURIComponent(imageJobId)}&tips=${encodeURIComponent(textJobId)}`,

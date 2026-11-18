@@ -2,8 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ResultPanel } from "@/components/ResultPanel";   
+import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
+import { GardenPlanPanel } from "@/components/GardenPlanPanel";
+import { ResultPanel } from "@/components/ResultPanel";
+import { readRememberedBeforeImage, SAMPLE_BEFORE_IMAGE } from "@/lib/beforeImage";
 import { pollJob, PollTimeoutError } from "@/lib/pollJob";
+
+const pageWidth =
+  "mx-auto w-[min(100%-2rem,72rem)] sm:w-[min(100%-3rem,72rem)] lg:w-[min(100%-4rem,72rem)]";
 
 const tipImages = [
   "/images/tip_annual.png",
@@ -42,11 +48,16 @@ export function TransformedView() {
   const [loading, setLoading] = useState(hasJobs);
   const [tipVisible, setTipVisible] = useState(false);
   const [tipsStarted, setTipsStarted] = useState(false);
-  const [textTips, setTextTips] = useState<string | null>(null);
+  const [, setTextTips] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [tipIndex, setTipIndex] = useState(() => getRandomTipIndex());
+  const [beforeImage, setBeforeImage] = useState(SAMPLE_BEFORE_IMAGE);
 
   const currentTipImage = tipImages[tipIndex];
+
+  useEffect(() => {
+    setBeforeImage(readRememberedBeforeImage());
+  }, []);
 
   useEffect(() => {
     if (!loading) {
@@ -140,20 +151,111 @@ export function TransformedView() {
   }, [imageJobId, textJobId]);
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className={pageWidth}>
       {error ? (
         <p role="alert" className="mb-4 text-center font-inter text-sm leading-6 text-main-nav">
           {error}
         </p>
       ) : null}
-      <ResultPanel
-        result={result}
-        loading={loading}
-        currentTipImage={currentTipImage}
-        tipVisible={tipVisible}
-        tipsStarted={tipsStarted}
-        textTips={textTips}
-      />
+      {result ? (
+        <>
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            <h2 className="page-title text-[#1f321d]">Your garden, reimagined</h2>
+            <span className="inline-flex items-center gap-1.5 font-inter text-sm font-semibold text-brand">
+              <svg
+                aria-hidden="true"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2.2"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M8.5 12.5l2.2 2.2 4.8-5.2" />
+              </svg>
+              Design ready
+            </span>
+          </div>
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.85fr)]">
+            <div>
+              <BeforeAfterSlider beforeSrc={beforeImage} afterSrc={result} />
+              <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <img
+                    alt="Original garden photo"
+                    className="h-32 w-40 rounded-lg object-cover"
+                    src={beforeImage}
+                  />
+                  <div>
+                    <p className="font-inter text-sm font-semibold text-[#1f321d]">Before</p>
+                    <button
+                      type="button"
+                      className="font-inter text-sm font-medium text-brand underline underline-offset-2"
+                    >
+                      View original
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 rounded-full border border-[#c9c3b4] bg-white px-4 py-2 font-inter text-sm font-medium text-[#1f321d]"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.8"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12 4v10" />
+                      <path d="M8 10l4 4 4-4" />
+                      <path d="M5 19h14" />
+                    </svg>
+                    Download image
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 rounded-full border border-[#c9c3b4] bg-white px-4 py-2 font-inter text-sm font-medium text-[#1f321d]"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.8"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M20 12a8 8 0 1 1-2.3-5.7" />
+                      <path d="M20 5v5h-5" />
+                    </svg>
+                    Try another design
+                  </button>
+                </div>
+              </div>
+            </div>
+            <GardenPlanPanel />
+          </div>
+        </>
+      ) : (
+        <div className="mx-auto w-full max-w-3xl">
+          <ResultPanel
+            result={result}
+            loading={loading}
+            currentTipImage={currentTipImage}
+            tipVisible={tipVisible}
+            tipsStarted={tipsStarted}
+            textTips={null}
+          />
+        </div>
+      )}
     </div>
   );
 }
