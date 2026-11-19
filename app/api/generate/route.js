@@ -52,7 +52,8 @@ async function editGardenImage({beforeImageBuffer, prompt, mimeType, signal}) {
         }),
     
         prompt,
-        quality: "medium",
+        quality: "low",
+        size: "1024x1024",
         output_format: "jpeg",
     }, { timeout: GENERATION_TIMEOUT_MS, signal });
     
