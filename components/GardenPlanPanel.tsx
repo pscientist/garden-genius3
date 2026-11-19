@@ -36,7 +36,7 @@ export function GardenPlanPanel() {
   const [tab, setTab] = useState<"plan" | "list">("plan");
 
   return (
-    <section className="max-h-[548px] overflow-y-auto rounded-2xl border border-[#d9d3c5] bg-white p-5 shadow-sm">
+    <section className="overflow-hidden rounded-2xl border border-[#d9d3c5] bg-white p-5 shadow-sm">
       <h2 className="font-inter text-lg font-bold text-[#1f321d]">Bring this garden to life</h2>
       <p className="mt-1 font-inter text-sm text-[#5c6b58]">
         A practical starting point for your makeover
@@ -69,7 +69,7 @@ export function GardenPlanPanel() {
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#e6e2d8]">
             <div className="h-full w-0 bg-brand" />
           </div>
-          <ol className="mt-2">
+          <ol className="mt-2 max-h-[304px] overflow-y-auto pr-2">
             {PLAN_STEPS.map((step, index) => (
               <li
                 key={step.title}
@@ -94,7 +94,7 @@ export function GardenPlanPanel() {
           </ol>
         </>
       ) : (
-        <ul className="mt-4">
+        <ul className="mt-4 max-h-[304px] overflow-y-auto pr-2">
           {SHOPPING_ITEMS.map((item, index) => (
             <li
               key={item}
