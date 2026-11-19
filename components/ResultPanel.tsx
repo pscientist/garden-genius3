@@ -83,7 +83,7 @@ export function ResultPanel({
                   <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#1f321d]/75 to-transparent" />
                   <div className="absolute inset-x-0 top-0 flex h-1/3 items-center justify-center px-5 text-center">
                     <h2 className="text-lg font-semibold leading-tight text-[#fbf5e8] drop-shadow-[0_2px_6px_rgba(31,50,29,0.45)] sm:text-xl">
-                      Got it! While you&apos;re waiting, here are some tips...
+                      Photo received! While you&apos;re waiting, here are some tips...
                     </h2>
                   </div>
                 </>

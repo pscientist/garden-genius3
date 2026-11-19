@@ -53,6 +53,7 @@ export function TransformedView() {
   const [tipIndex, setTipIndex] = useState(() => getRandomTipIndex());
   const [beforeImage, setBeforeImage] = useState(SAMPLE_BEFORE_IMAGE);
   const [pageVisible, setPageVisible] = useState(false);
+  const [resultVisible, setResultVisible] = useState(false);
 
   const currentTipImage = tipImages[tipIndex];
 
@@ -71,6 +72,23 @@ export function TransformedView() {
       window.cancelAnimationFrame(secondFrame);
     };
   }, []);
+
+  useEffect(() => {
+    if (!result) {
+      setResultVisible(false);
+      return;
+    }
+
+    let secondFrame = 0;
+    const firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => setResultVisible(true));
+    });
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+    };
+  }, [result]);
 
   useEffect(() => {
     if (!loading) {
@@ -175,92 +193,22 @@ export function TransformedView() {
         </p>
       ) : null}
       {result ? (
-        <>
+        <div
+          className={`transition-opacity duration-300 ${
+            resultVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <h2 className="page-title text-[#1f321d]">Your garden, reimagined</h2>
-            <span className="inline-flex items-center gap-1.5 font-inter text-sm font-semibold text-brand">
-              <svg
-                aria-hidden="true"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2.2"
-                viewBox="0 0 24 24"
-              >
-                <circle cx="12" cy="12" r="9" />
-                <path d="M8.5 12.5l2.2 2.2 4.8-5.2" />
-              </svg>
-              Design ready
-            </span>
           </div>
+
           <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.85fr)]">
             <div>
               <BeforeAfterSlider beforeSrc={beforeImage} afterSrc={result} />
-              <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-3">
-                  <img
-                    alt="Original garden photo"
-                    className="h-32 w-40 rounded-lg object-cover"
-                    src={beforeImage}
-                  />
-                  <div>
-                    <p className="font-inter text-sm font-semibold text-[#1f321d]">Before</p>
-                    <button
-                      type="button"
-                      className="font-inter text-sm font-medium text-brand underline underline-offset-2"
-                    >
-                      View original
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-2 rounded-full border border-[#c9c3b4] bg-white px-4 py-2 font-inter text-sm font-medium text-[#1f321d]"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.8"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 4v10" />
-                      <path d="M8 10l4 4 4-4" />
-                      <path d="M5 19h14" />
-                    </svg>
-                    Download image
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-2 rounded-full border border-[#c9c3b4] bg-white px-4 py-2 font-inter text-sm font-medium text-[#1f321d]"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.8"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M20 12a8 8 0 1 1-2.3-5.7" />
-                      <path d="M20 5v5h-5" />
-                    </svg>
-                    Try another design
-                  </button>
-                </div>
-              </div>
             </div>
             <GardenPlanPanel />
           </div>
-        </>
+        </div>
       ) : (
         <div className="mx-auto w-full max-w-3xl">
           <ResultPanel
