@@ -1,13 +1,9 @@
 "use client";
 
-import { SearchFilters } from "@/components/SearchFilters";
-import { SearchBox } from "@/components/SearchBox";
 import { PageTitle } from "@/components/PageTitle";
 import { GalleryImageCard } from "@/components/GalleryImageCard";
 import { useSiteRegion } from "@/components/SiteShell";
-import { useState } from "react";
 import { GalleryImageCardType } from "@/types/gallery";
-import { filterGallery } from "../lib/filterGallery";
 
 const initialImages: GalleryImageCardType[] = [
   {
@@ -73,37 +69,19 @@ const initialImages: GalleryImageCardType[] = [
 ];
 
 export default function Home() {
-
-  const [budgetFilter, setBudgetFilter] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
   const siteRegion = useSiteRegion();
-
-  const showFlexDebugOutlines = false;
-  const flexDebugOutline = showFlexDebugOutlines
-    ? "[&>*]:outline [&>*]:outline-1 [&>*]:outline-debug"
-    : "";
 
   return (
     <>
-          <div className={`flex w-full gap-10 py-4 items-start ${flexDebugOutline}`}>
-            <div className="min-w-0 flex-1 flex flex-col items-start">
-              <PageTitle siteRegion={siteRegion}/>
-            </div>
+      <div className="w-full py-4">
+        <PageTitle siteRegion={siteRegion} />
+      </div>
 
-            <div className="flex shrink-0 items-start justify-end">
-              <SearchBox searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-            </div>
-
-            <div className="flex shrink-0 items-start justify-end">
-              <SearchFilters budgetFilter={budgetFilter} onBudgetChange={setBudgetFilter}/>
-            </div>
-          </div>
-
-          <div id="gallery" className="grid gap-x-10 gap-y-10 grid-cols-2"> 
-            { filterGallery(initialImages, searchTerm, budgetFilter)
-              .map((item) => <GalleryImageCard 
-                  key={item.title} {...item} />)}
-          </div>
+      <div id="gallery" className="grid grid-cols-2 gap-x-10 gap-y-10">
+        {initialImages.map((item) => (
+          <GalleryImageCard key={item.title} {...item} />
+        ))}
+      </div>
     </>
   );
 }
