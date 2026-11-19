@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 function SocialIcon({ children }: { children: ReactNode }) {
@@ -88,9 +89,15 @@ export function SiteFooter() {
       <ul className="font-menu mt-5 flex list-none items-center justify-center divide-x divide-neutral-300 text-[12px] uppercase text-brand">
         {footerLinks.map((label) => (
           <li key={label} className="px-5">
-            <button type="button" className="uppercase transition hover:opacity-80">
-              {label}
-            </button>
+            {label === "About" ? (
+              <Link href="/about" className="uppercase no-underline transition hover:opacity-80">
+                {label}
+              </Link>
+            ) : (
+              <button type="button" className="uppercase transition hover:opacity-80">
+                {label}
+              </button>
+            )}
           </li>
         ))}
       </ul>
