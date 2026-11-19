@@ -36,7 +36,7 @@ export function GardenPlanPanel() {
   const [tab, setTab] = useState<"plan" | "list">("plan");
 
   return (
-    <section className="rounded-2xl border border-[#d9d3c5] bg-white p-5 shadow-sm">
+    <section className="max-h-[548px] overflow-y-auto rounded-2xl border border-[#d9d3c5] bg-white p-5 shadow-sm">
       <h2 className="font-inter text-lg font-bold text-[#1f321d]">Bring this garden to life</h2>
       <p className="mt-1 font-inter text-sm text-[#5c6b58]">
         A practical starting point for your makeover
