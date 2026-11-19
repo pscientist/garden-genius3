@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import { GardenPlanPanel } from "@/components/GardenPlanPanel";
@@ -205,6 +206,34 @@ export function TransformedView() {
           >
             <div>
               <BeforeAfterSlider beforeSrc={beforeImage} afterSrc={result} />
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#c9c3b4] bg-white px-4 py-2 font-inter text-sm font-medium text-[#1f321d]"
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 4v10" />
+                    <path d="M8 10l4 4 4-4" />
+                    <path d="M5 19h14" />
+                  </svg>
+                  Download Plan
+                </button>
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#c9c3b4] bg-white px-4 py-2 font-inter text-sm font-medium text-[#1f321d]"
+                >
+                  Back to home
+                </Link>
+              </div>
             </div>
             <GardenPlanPanel />
           </div>
