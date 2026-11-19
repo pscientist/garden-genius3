@@ -52,11 +52,24 @@ export function TransformedView() {
   const [error, setError] = useState<string | null>(null);
   const [tipIndex, setTipIndex] = useState(() => getRandomTipIndex());
   const [beforeImage, setBeforeImage] = useState(SAMPLE_BEFORE_IMAGE);
+  const [pageVisible, setPageVisible] = useState(false);
 
   const currentTipImage = tipImages[tipIndex];
 
   useEffect(() => {
     setBeforeImage(readRememberedBeforeImage());
+  }, []);
+
+  useEffect(() => {
+    let secondFrame = 0;
+    const firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => setPageVisible(true));
+    });
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+    };
   }, []);
 
   useEffect(() => {
@@ -151,7 +164,11 @@ export function TransformedView() {
   }, [imageJobId, textJobId]);
 
   return (
-    <div className={pageWidth}>
+    <div
+      className={`${pageWidth} transition-opacity duration-300 ${
+        pageVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
       {error ? (
         <p role="alert" className="mb-4 text-center font-inter text-sm leading-6 text-main-nav">
           {error}

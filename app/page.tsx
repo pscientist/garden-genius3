@@ -14,6 +14,7 @@ export default function Visualizer()
     const [beforeImgUrl, setBeforeImgUrl] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [leaving, setLeaving] = useState(false);
 
     // Create the preview URL in an effect. A URL made during render gets revoked
     // by Strict Mode's extra cleanup, so the photo never appears in development.
@@ -67,11 +68,13 @@ export default function Visualizer()
           return;
         }
 
-        handoffBeforeImage(file);
-
-        router.push(
-          `/transformed?image=${encodeURIComponent(imageJobId)}&tips=${encodeURIComponent(textJobId)}`,
-        );
+        setLeaving(true);
+        window.setTimeout(() => {
+          handoffBeforeImage(file);
+          router.push(
+            `/transformed?image=${encodeURIComponent(imageJobId)}&tips=${encodeURIComponent(textJobId)}`,
+          );
+        }, 300);
       } catch (submitError) {
         console.error("Failure API call : ", submitError);
         setError("Something went wrong. Please try again.");
@@ -80,7 +83,7 @@ export default function Visualizer()
     }
   
     return (
-        <div className="transformation_wrapper mx-auto grid w-[min(100%-2rem,72rem)] flex-1 items-start gap-6 sm:w-[min(100%-3rem,72rem)] md:grid-cols-2 lg:w-[min(100%-4rem,72rem)]">
+        <div className={`transformation_wrapper mx-auto grid w-[min(100%-2rem,72rem)] flex-1 items-start gap-6 transition-opacity duration-300 sm:w-[min(100%-3rem,72rem)] md:grid-cols-2 lg:w-[min(100%-4rem,72rem)] ${leaving ? "opacity-0" : "opacity-100"}`}>
             <ImageUploadPanel
             beforeImgUrl={beforeImgUrl}
             file={file}
