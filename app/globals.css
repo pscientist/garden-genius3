@@ -176,3 +176,18 @@ body {
   opacity: 0;
   animation: placeholder-fade 2s ease forwards;
 }
+
+@keyframes list-item-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.list-item-fade {
+  opacity: 0;
+  animation: list-item-fade 1400ms ease forwards;
+}

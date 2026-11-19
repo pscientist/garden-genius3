@@ -73,7 +73,8 @@ export function GardenPlanPanel() {
             {PLAN_STEPS.map((step, index) => (
               <li
                 key={step.title}
-                className="flex items-start gap-3 border-b border-[#eeeae2] py-3 last:border-b-0"
+                className="list-item-fade flex items-start gap-3 border-b border-[#eeeae2] py-3 last:border-b-0"
+                style={{ animationDelay: `${index * 300}ms` }}
               >
                 <span
                   aria-hidden="true"
@@ -94,10 +95,11 @@ export function GardenPlanPanel() {
         </>
       ) : (
         <ul className="mt-4">
-          {SHOPPING_ITEMS.map((item) => (
+          {SHOPPING_ITEMS.map((item, index) => (
             <li
               key={item}
-              className="flex items-center gap-3 border-b border-[#eeeae2] py-3 last:border-b-0"
+              className="list-item-fade flex items-center gap-3 border-b border-[#eeeae2] py-3 last:border-b-0"
+              style={{ animationDelay: `${index * 300}ms` }}
             >
               <span
                 aria-hidden="true"
