@@ -66,7 +66,7 @@ export function ResultPanel({
                 <img
                   src={currentTipImage}
                   alt="Current tip"
-                  className={`h-full w-full object-contain transition-opacity duration-500 ${
+                  className={`h-full w-full origin-center scale-[0.1] object-contain transition-opacity duration-500 ${
                     tipVisible ? "opacity-100" : "opacity-0"
                   }`}
                 />
