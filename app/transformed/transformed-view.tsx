@@ -193,22 +193,22 @@ export function TransformedView() {
         </p>
       ) : null}
       {result ? (
-        <div
-          className={`transition-opacity duration-300 ${
-            resultVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
+        <>
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <h2 className="page-title text-[#1f321d]">Your garden, reimagined</h2>
           </div>
 
-          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.85fr)]">
+          <div
+            className={`result_wrapper grid items-start gap-6 transition-opacity duration-[1200ms] lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.85fr)] ${
+              resultVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <div>
               <BeforeAfterSlider beforeSrc={beforeImage} afterSrc={result} />
             </div>
             <GardenPlanPanel />
           </div>
-        </div>
+        </>
       ) : (
         <div className="mx-auto w-full max-w-3xl">
           <ResultPanel
