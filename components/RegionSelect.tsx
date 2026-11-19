@@ -5,7 +5,7 @@ type RegionSelectProps = {
     onRegionSelect: (value: string) => void;
 }
 
-const optionType = "font-menu text-[10.08px] uppercase";
+const optionType = "font-menu text-[12px] uppercase";
 
 export default function RegionSelect({siteRegion, onRegionSelect} : RegionSelectProps) {
   return (
