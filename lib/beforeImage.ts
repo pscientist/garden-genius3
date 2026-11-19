@@ -2,6 +2,15 @@ const STORAGE_KEY = "garden-before-image";
 
 export const SAMPLE_BEFORE_IMAGE = "/images/before_images/Sample_Before1.png";
 
+// The homepage preview URL is revoked when that page unmounts, so the
+// transformed page needs its own object URL for the same file.
+let handoffUrl: string | null = null;
+
+export function handoffBeforeImage(file: File) {
+  if (handoffUrl) URL.revokeObjectURL(handoffUrl);
+  handoffUrl = URL.createObjectURL(file);
+}
+
 function readFileAsDataUrl(file: File) {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -34,6 +43,8 @@ export async function rememberBeforeImage(file: File) {
 }
 
 export function readRememberedBeforeImage() {
+  if (handoffUrl) return handoffUrl;
+
   try {
     return sessionStorage.getItem(STORAGE_KEY) || SAMPLE_BEFORE_IMAGE;
   } catch {
