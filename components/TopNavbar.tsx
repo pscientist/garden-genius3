@@ -46,14 +46,12 @@ const navItems: { href: string; label: string; icon: ReactNode }[] = [
     ),
   },
   {
-    href: "/quick-tips",
-    label: "Quick Tips",
-    // clipboard with checkmark
+    href: "/about",
+    label: "About",
     icon: (
       <NavIcon>
-        <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
-        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-        <path d="m9 14 2 2 4-4" />
+        <path d="M12 3.5 13.4 8.6 18.5 10 13.4 11.4 12 16.5 10.6 11.4 5.5 10 10.6 8.6 12 3.5Z" />
+        <path d="M18 15.2 18.7 17.3 20.8 18 18.7 18.7 18 20.8 17.3 18.7 15.2 18 17.3 17.3 18 15.2Z" />
       </NavIcon>
     ),
   },
