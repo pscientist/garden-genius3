@@ -195,7 +195,7 @@ export function TransformedView() {
       {result ? (
         <>
           <div className="mb-4 flex flex-wrap items-center gap-3">
-            <h2 className="page-title text-[#1f321d]">Your garden, reimagined</h2>
+            <h2 className="page-title text-[#1f321d]">Brand new design for your garden</h2>
           </div>
 
           <div
