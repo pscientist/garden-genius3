@@ -161,3 +161,18 @@ body {
 .region-description-fade {
   animation: region-description-fade 420ms ease-out;
 }
+
+@keyframes placeholder-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.placeholder-fade {
+  opacity: 0;
+  animation: placeholder-fade 2s ease forwards;
+}

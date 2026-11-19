@@ -70,7 +70,14 @@ export function ResultPanel({
                     tipVisible ? "opacity-100" : "opacity-0"
                   }`}
                 />
-              ) : null}
+              ) : (
+                <img
+                  alt=""
+                  aria-hidden="true"
+                  className="placeholder-fade absolute inset-0 h-full w-full object-cover grayscale"
+                  src="/images/before_images/Sample_Before1.png"
+                />
+              )}
               {tipsStarted ? null : (
                 <>
                   <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#1f321d]/75 to-transparent" />
